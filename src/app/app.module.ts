@@ -8,6 +8,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListExpensesComponent } from './list-expenses/list-expenses.component';
 import { ApproveExpenseComponent } from './approve-expense/approve-expense.component';
 import { ReportComponent } from './report/report.component';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { ReportComponent } from './report/report.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
