@@ -20,9 +20,9 @@
             </div>
             <div class="col-6">
                 <label>Category</label>
-                <select formControlName="category" class="form-control">
+                <select formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
                     <option value="">Select</option>
-                    <option *ngFor="let c of categories" [value]="c">{{c}}</option>
+                    <option *ngFor="let c of categories | keyvalue" [value]="c.key">{{c.key}}</option>
                 </select>
                 <div *ngIf="f.category.errors && (f.category.dirty || f.category.touched)">
                     <div class="error" *ngIf="f.category.errors.required">Category is required</div>
@@ -35,6 +35,13 @@
                 <input type="text" formControlName="amount" class="form-control" />
                 <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
                     <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label>Proportion</label>
+                <input type="text" formControlName="proportion" class="form-control" readonly />
+                <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
+                    <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
                 </div>
             </div>
         </div>
