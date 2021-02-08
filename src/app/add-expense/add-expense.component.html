@@ -11,14 +11,14 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-5">
-                <label>Amount</label>
-                <input type="text" formControlName="amount" class="form-control" />
-                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
-                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+            <div class="col-6">
+                <label>Date</label>
+                <input type="text" formControlName="date" class="form-control" />
+                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
+                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
                 </div>
             </div>
-            <div class="col-7">
+            <div class="col-6">
                 <label>Category</label>
                 <select formControlName="category" class="form-control">
                     <option value="">Select</option>
@@ -26,6 +26,15 @@
                 </select>
                 <div *ngIf="f.category.errors && (f.category.dirty || f.category.touched)">
                     <div class="error" *ngIf="f.category.errors.required">Category is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Amount</label>
+                <input type="text" formControlName="amount" class="form-control" />
+                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
+                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
                 </div>
             </div>
         </div>

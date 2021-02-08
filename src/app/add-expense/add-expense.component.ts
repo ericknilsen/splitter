@@ -19,6 +19,7 @@ export class AddExpenseComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.form = fb.group({
       'description': new FormControl('', Validators.required),
+      'date': new FormControl('', Validators.required),
       'amount': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required)
     });
