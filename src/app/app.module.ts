@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddExpenseComponent } from './add-expense/add-expense.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ListExpensesComponent } from './list-expenses/list-expenses.component';
-import { ApproveExpenseComponent } from './approve-expense/approve-expense.component';
-import { ReportComponent } from './report/report.component';
+import { AddExpenseComponent } from './components/add-expense/add-expense.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ListExpensesComponent } from './components/list-expenses/list-expenses.component';
+import { ApproveExpenseComponent } from './components/approve-expense/approve-expense.component';
+import { ReportComponent } from './components/report/report.component';
 import {
   FormsModule,
   ReactiveFormsModule
