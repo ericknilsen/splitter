@@ -12,6 +12,8 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
+import { ExpensesService } from './services/expenses.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,11 +26,12 @@ import {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ExpensesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

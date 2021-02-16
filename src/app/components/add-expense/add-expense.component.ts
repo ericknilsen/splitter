@@ -5,6 +5,8 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
+import { ExpensesService } from 'src/app/services/expenses.service';
+import { Expense } from 'src/app/models/expense.model';
 
 @Component({
   selector: 'app-add-expense',
@@ -18,15 +20,16 @@ export class AddExpenseComponent implements OnInit {
   halfProportion = 50;
 
   categories = new Map([['Grocery', this.defaultProportion],
-                      ['Housing', this.defaultProportion],
-                      ['Internet', this.defaultProportion],
-                      ['Hydro', this.defaultProportion],
-                      ['Gas', this.halfProportion],
-                      ['Car Service', this.halfProportion],
-                      ['Recreation', this.halfProportion],
-                      ['Restaurant', this.halfProportion]]);
+  ['Housing', this.defaultProportion],
+  ['Internet', this.defaultProportion],
+  ['Hydro', this.defaultProportion],
+  ['Gas', this.halfProportion],
+  ['Car Service', this.halfProportion],
+  ['Recreation', this.halfProportion],
+  ['Restaurant', this.halfProportion]]);
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private expensesService: ExpensesService) {
     this.form = fb.group({
       'description': new FormControl('', Validators.required),
       'date': new FormControl(this.currentDate(), Validators.required),
@@ -39,8 +42,11 @@ export class AddExpenseComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(value: string): void {
-    console.log('you submitted value: ', value);
+  onSubmit(expense: Expense): void {
+    expense.status = 'Pending';
+    this.expensesService.add(expense).subscribe(resp => {
+      console.log(`Expense added with ID: ${resp}`);
+    })
   }
 
   get f() { return this.form.controls; }
@@ -51,11 +57,11 @@ export class AddExpenseComponent implements OnInit {
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = today.getFullYear();
 
-    return mm + '/' + dd + '/' + yyyy; 
+    return mm + '/' + dd + '/' + yyyy;
   }
 
   selectCategory(key: any) {
-    this.form.patchValue({'proportion': this.categories.get(key)+'%'});
+    this.form.patchValue({ 'proportion': this.categories.get(key) + '%' });
   }
 
 }
