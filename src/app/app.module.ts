@@ -13,7 +13,9 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { ExpensesService } from './services/expenses.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './auth/token.interceptor';
+import { JwtService } from './services/jwt.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ExpensesService],
+  providers: [
+    ExpensesService,
+    JwtService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

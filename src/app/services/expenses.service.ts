@@ -11,11 +11,11 @@ export class ExpensesService {
   constructor(private http: HttpClient) {}
 
   add(expense: Expense): Observable<string> {
-    return this.http.post<string>(`${ENDPOINT}/createExpense`, expense)
+    return this.http.post<string>(`${ENDPOINT}/createExpense`, expense);
   }
 
-  list(): Observable<Expense[]> {    
-    return this.http.get<Expense[]>(`${ENDPOINT}/listExpenses`)
+  list(): Observable<Expense[]> {   
+    return this.http.get<Expense[]>(`${ENDPOINT}/listExpenses`);
   }
 
 }
