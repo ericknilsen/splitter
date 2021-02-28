@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { JwtService } from './services/jwt.service';
-import { API_USERNAME, API_PASSWORD } from './utils/constants';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +7,6 @@ import { API_USERNAME, API_PASSWORD } from './utils/constants';
 })
 export class AppComponent {
 
-  constructor(jwtService: JwtService) {
-    jwtService.login(API_USERNAME, API_PASSWORD).subscribe(resp => {
-      localStorage.setItem('accessToken', resp.accessToken);
-    })
+  constructor() {
   }
 }

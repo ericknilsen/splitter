@@ -14,8 +14,16 @@ import {
 } from '@angular/forms';
 import { ExpensesService } from './services/expenses.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './auth/token.interceptor';
+import { JwtInterceptor } from './security/jwt.interceptor';
 import { JwtService } from './services/jwt.service';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angularx-social-login';
+import { LoginComponent } from './security/login/login.component';
+import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
+import { ErrorInterceptor } from './security/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,19 +32,41 @@ import { JwtService } from './services/jwt.service';
     DashboardComponent,
     ListExpensesComponent,
     ApproveExpenseComponent,
-    ReportComponent
+    ReportComponent,
+    LoginComponent,
+    LoginSocialUserComponent  
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SocialLoginModule
   ],
   providers: [
     ExpensesService,
     JwtService,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              'clientId'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('clientId')
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
