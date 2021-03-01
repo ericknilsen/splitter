@@ -17,13 +17,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './security/jwt.interceptor';
 import { JwtService } from './services/jwt.service';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
-} from 'angularx-social-login';
+import { GoogleLoginProvider} from 'angularx-social-login';
 import { LoginComponent } from './security/login/login.component';
 import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
 import { ErrorInterceptor } from './security/error.interceptor';
+import { GOOGLE_OAUTH_CLIENT_ID } from './utils/constants';
 
 @NgModule({
   declarations: [
@@ -57,12 +55,8 @@ import { ErrorInterceptor } from './security/error.interceptor';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              'clientId'
+              GOOGLE_OAUTH_CLIENT_ID
             )
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('clientId')
           }
         ]
       } as SocialAuthServiceConfig,
