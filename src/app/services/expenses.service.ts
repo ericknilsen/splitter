@@ -11,6 +11,7 @@ export class ExpensesService {
   constructor(private http: HttpClient) {}
 
   add(expense: Expense): Observable<string> {
+    console.log(expense)
     return this.http.post<string>(`${ENDPOINT}/createExpense`, expense);
   }
 

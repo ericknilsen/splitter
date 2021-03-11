@@ -5,4 +5,5 @@ export class Expense {
     category!: string
     date!: string
     status!: string
+    user!: string
   }
