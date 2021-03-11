@@ -7,12 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  user:string = 'Erick';
-  balance:number = 1745.87;
+  user: any;
+  balance: number = 1745.87;
+  group: any[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('currentUser')!);
+
+  }
+
+  private getUserGroup() {
+    
   }
 
 }

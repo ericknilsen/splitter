@@ -4,9 +4,9 @@
     <img
       width="40"
       alt="User Image"
-      src="https://avatars.githubusercontent.com/u/14822868?s=400&u=5c977823f9407ef8683daee4ae506e345af75855&v=4"
+      [src]="user.photoUrl"
     />
-    <span>Welcome {{user}}</span>
+    <span>Welcome {{user.name}}</span>
       <div class="spacer"></div>
       <div>
         <a href="#" routerLink="/login" routerLinkActive="active" (click)="$event.preventDefault()">Logout</a>
