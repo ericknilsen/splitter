@@ -39,7 +39,7 @@ export class AuthenticationService {
     }   
     
     createSocialUser(socialUser: SocialUser) {
-        let body = {id:socialUser.id, firstName: socialUser.firstName, provider: socialUser.provider}
+        let body = {id: socialUser.id, email: socialUser.email, firstName: socialUser.firstName, provider: socialUser.provider}
         return this.http.post<any>(`${ENDPOINT}/socialusers/`, body)
     }
 
@@ -48,7 +48,8 @@ export class AuthenticationService {
         return this.http.post<any>(`${ENDPOINT}/loginsu/`, body)
             .pipe(map(user => {
                 if (user && user.accessToken) {
-                    user.photoUrl = socialUser.photoUrl
+                    user.photoUrl = socialUser.photoUrl;
+                    user.name = socialUser.firstName;
                     this.setLocalStorage(user)
                 }             
                 return user;
