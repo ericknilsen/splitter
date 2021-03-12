@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
+import { Util } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-list-expenses',
@@ -13,7 +14,8 @@ export class ListExpensesComponent implements OnInit {
   constructor(private expensesService: ExpensesService) { }
 
   ngOnInit(): void {
-    this.expensesService.list().subscribe(result => {
+    const user = Util.getCurrentUser();
+    this.expensesService.listExpensesByGroup(user.group).subscribe(result => {
       this.expenses = result;
     })
   }

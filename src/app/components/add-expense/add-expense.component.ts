@@ -46,6 +46,7 @@ export class AddExpenseComponent implements OnInit {
     expense.status = 'Pending';
     const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
     expense.user = currentUser.id;
+    expense.group = currentUser.group;
     this.expensesService.add(expense).subscribe(resp => {
       console.log(`Expense added with ID: ${resp}`);
     })

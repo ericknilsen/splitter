@@ -47,6 +47,7 @@ export class AuthenticationService {
         let body = {id:socialUser.id, firstName: socialUser.firstName, provider: socialUser.provider}
         return this.http.post<any>(`${ENDPOINT}/loginsu/`, body)
             .pipe(map(user => {
+                console.log(user)
                 if (user && user.accessToken) {
                     user.photoUrl = socialUser.photoUrl;
                     user.name = socialUser.firstName;

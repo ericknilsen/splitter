@@ -11,12 +11,15 @@ export class ExpensesService {
   constructor(private http: HttpClient) {}
 
   add(expense: Expense): Observable<string> {
-    console.log(expense)
     return this.http.post<string>(`${ENDPOINT}/createExpense`, expense);
   }
 
-  list(): Observable<Expense[]> {   
-    return this.http.get<Expense[]>(`${ENDPOINT}/listExpenses`);
+  listExpensesByUser(userId: any): Observable<Expense[]> {   
+    return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userId}`);
+  }
+
+  listExpensesByGroup(groupId: any): Observable<Expense[]> {   
+    return this.http.get<Expense[]>(`${ENDPOINT}/listGroupExpenses/${groupId}`);
   }
 
 }

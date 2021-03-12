@@ -6,4 +6,5 @@ export class Expense {
     date!: string
     status!: string
     user!: string
+    group!: string
   }

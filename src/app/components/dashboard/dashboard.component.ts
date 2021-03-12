@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Util } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,8 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('currentUser')!);
-
+    this.user = Util.getCurrentUser();
   }
 
   private getUserGroup() {
