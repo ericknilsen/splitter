@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
+import { UserGroupService } from 'src/app/services/user-groups.service';
+import { Util } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-add-expense',
@@ -27,26 +29,36 @@ export class AddExpenseComponent implements OnInit {
   ['Car Service', this.halfProportion],
   ['Recreation', this.halfProportion],
   ['Restaurant', this.halfProportion]]);
+  
+  user: any;
+  chargedUser: any;
+  groupUsers: any[] = [];
 
   constructor(private fb: FormBuilder,
+    private userGroupService: UserGroupService,
     private expensesService: ExpensesService) {
-    this.form = fb.group({
+    this.form = this.fb.group({
       'description': new FormControl('', Validators.required),
       'date': new FormControl(this.currentDate(), Validators.required),
       'amount': new FormControl('', Validators.required),
       'proportion': new FormControl('', Validators.required),
-      'category': new FormControl('', Validators.required)
+      'category': new FormControl('', Validators.required),
+      'chargedUser': new FormControl('', Validators.required)
     });
   }
 
   ngOnInit(): void {
+    this.initCurrentUser();
+    this.listUserGroupOfUser();
+  }
+
+  private initCurrentUser() {
+    this.user = Util.getCurrentUser();
   }
 
   onSubmit(expense: Expense): void {
     expense.status = 'Pending';
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
-    expense.user = currentUser.id;
-    expense.group = currentUser.group;
+    expense.receiverUser = this.user.email;
     this.expensesService.add(expense).subscribe(resp => {
       console.log(`Expense added with ID: ${resp}`);
     })
@@ -65,6 +77,12 @@ export class AddExpenseComponent implements OnInit {
 
   selectCategory(key: any) {
     this.form.patchValue({ 'proportion': this.categories.get(key) + '%' });
+  }
+
+  listUserGroupOfUser() {
+    this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
+      this.groupUsers = userGroup.users.filter(u => u !== this.user.email);
+    })
   }
 
 }

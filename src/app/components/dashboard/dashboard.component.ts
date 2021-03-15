@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserGroupService } from 'src/app/services/user-groups.service';
 import { Util } from 'src/app/utils/util';
 
 @Component({
@@ -10,16 +11,16 @@ export class DashboardComponent implements OnInit {
 
   user: any;
   balance: number = 1745.87;
-  group: any[] = [];
+  chargedUser: any;
 
-  constructor() { }
+  constructor(private userGroupService: UserGroupService) { }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.getChargedUser();
   }
 
-  private getUserGroup() {
-    
+  private getChargedUser() {
   }
 
 }

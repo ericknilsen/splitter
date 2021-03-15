@@ -15,7 +15,7 @@ export class ListExpensesComponent implements OnInit {
 
   ngOnInit(): void {
     const user = Util.getCurrentUser();
-    this.expensesService.listExpensesByGroup(user.group).subscribe(result => {
+    this.expensesService.listExpensesByUser(user.email).subscribe(result => {
       this.expenses = result;
     })
   }

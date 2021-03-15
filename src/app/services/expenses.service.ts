@@ -14,12 +14,8 @@ export class ExpensesService {
     return this.http.post<string>(`${ENDPOINT}/createExpense`, expense);
   }
 
-  listExpensesByUser(userId: any): Observable<Expense[]> {   
-    return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userId}`);
-  }
-
-  listExpensesByGroup(groupId: any): Observable<Expense[]> {   
-    return this.http.get<Expense[]>(`${ENDPOINT}/listGroupExpenses/${groupId}`);
+  listExpensesByUser(userEmail: any): Observable<Expense[]> {   
+    return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userEmail}`);
   }
 
 }

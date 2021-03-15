@@ -51,6 +51,7 @@ export class AuthenticationService {
                 if (user && user.accessToken) {
                     user.photoUrl = socialUser.photoUrl;
                     user.name = socialUser.firstName;
+                    user.email = socialUser.email;
                     this.setLocalStorage(user)
                 }             
                 return user;
