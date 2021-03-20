@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Expense } from '../models/expense.model';
 import { ENDPOINT } from '../utils/constants';
 
 @Injectable()
 export class ExpensesService {
+
+  private emitChangeExpenses = new Subject<any>();
+
+  expensesChangeEmitted$ = this.emitChangeExpenses.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -16,6 +20,10 @@ export class ExpensesService {
 
   listExpensesByUser(userEmail: any): Observable<Expense[]> {   
     return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userEmail}`);
+  }
+
+  emitExpensesChange() {
+    this.emitChangeExpenses.next();
   }
 
 }

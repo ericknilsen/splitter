@@ -3,6 +3,7 @@ export class Expense {
     description!: string
     amount!: string
     category!: string
+    proportion!:number
     date!: string
     status!: string
     receiverUser!: string

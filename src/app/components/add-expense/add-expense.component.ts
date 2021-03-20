@@ -18,8 +18,8 @@ import { Util } from 'src/app/utils/util';
 export class AddExpenseComponent implements OnInit {
 
   form: FormGroup;
-  defaultProportion = 37;
-  halfProportion = 50;
+  defaultProportion = 0.35;
+  halfProportion = 0.50;
 
   categories = new Map([['Grocery', this.defaultProportion],
   ['Housing', this.defaultProportion],
@@ -62,6 +62,8 @@ export class AddExpenseComponent implements OnInit {
     this.expensesService.add(expense).subscribe(resp => {
       console.log(`Expense added with ID: ${resp}`);
     })
+
+    this.expensesService.emitExpensesChange();
   }
 
   get f() { return this.form.controls; }
@@ -76,7 +78,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   selectCategory(key: any) {
-    this.form.patchValue({ 'proportion': this.categories.get(key) + '%' });
+    this.form.patchValue({ 'proportion': this.categories.get(key)});
   }
 
   listUserGroupOfUser() {
