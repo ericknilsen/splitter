@@ -1,6 +1,6 @@
 .form-style{
 	padding:30px;
-	margin:40px auto;
+	margin:20px auto;
 	background: #FFF;
 	border-radius: 10px;
 	-webkit-border-radius:10px;
@@ -56,4 +56,9 @@
 
 .error {
 	color: #dc3545;	
+}
+
+.success {
+	text-align: center;
+	color: #13b320;		
 }

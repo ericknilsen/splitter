@@ -44,9 +44,9 @@ export class DashboardComponent implements OnInit {
       
       this.balance = this.expenses.map(e => {
         if (e.receiverUser === this.user.email) {
-          return parseFloat(e.amount) * e.proportion;
+          return e.amount * e.proportion;
         } else {
-          return -parseFloat(e.amount) * e.proportion;
+          return -e.amount * e.proportion;
         }
       }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     })

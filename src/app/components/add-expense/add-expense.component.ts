@@ -21,12 +21,11 @@ export class AddExpenseComponent implements OnInit {
   defaultProportion = 0.35;
   halfProportion = 0.50;
 
+  isSubmited: boolean = false;
+
   categories = new Map([['Grocery', this.defaultProportion],
   ['Housing', this.defaultProportion],
-  ['Internet', this.defaultProportion],
-  ['Hydro', this.defaultProportion],
-  ['Gas', this.halfProportion],
-  ['Car Service', this.halfProportion],
+  ['Car', this.halfProportion],
   ['Recreation', this.halfProportion],
   ['Restaurant', this.halfProportion]]);
   
@@ -37,7 +36,11 @@ export class AddExpenseComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private userGroupService: UserGroupService,
     private expensesService: ExpensesService) {
-    this.form = this.fb.group({
+    this.form = this.initForm();
+  }
+
+  private initForm() {
+    return this.fb.group({
       'description': new FormControl('', Validators.required),
       'date': new FormControl(this.currentDate(), Validators.required),
       'amount': new FormControl('', Validators.required),
@@ -61,9 +64,12 @@ export class AddExpenseComponent implements OnInit {
     expense.receiverUser = this.user.email;
     this.expensesService.add(expense).subscribe(resp => {
       console.log(`Expense added with ID: ${resp}`);
+      this.isSubmited = true;
     })
 
     this.expensesService.emitExpensesChange();
+    this.form = this.initForm();
+    this.setChargedUser();
   }
 
   get f() { return this.form.controls; }
@@ -78,13 +84,21 @@ export class AddExpenseComponent implements OnInit {
   }
 
   selectCategory(key: any) {
-    this.form.patchValue({ 'proportion': this.categories.get(key)});
+    this.form.patchValue({'proportion': this.categories.get(key)});
   }
 
   listUserGroupOfUser() {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.groupUsers = userGroup.users.filter(u => u !== this.user.email);
+      this.setChargedUser();
     })
+  }
+
+  private setChargedUser() {
+    if (this.groupUsers.length === 1) {
+      this.chargedUser = this.groupUsers[0];
+      this.form.patchValue({'chargedUser': this.chargedUser});
+    }
   }
 
 }

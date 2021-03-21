@@ -1,7 +1,7 @@
 export class Expense {
     _id!: string;
     description!: string
-    amount!: string
+    amount!: number
     category!: string
     proportion!:number
     date!: string

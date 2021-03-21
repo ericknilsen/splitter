@@ -1,3 +1,4 @@
+<div class="success" *ngIf="form.pristine && isSubmited">Expense successfully created.</div>
 <div class="form-style">
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="section">New Expense</div>
@@ -49,7 +50,8 @@
         <div class="form-group row">
             <div class="col-12">
                 <label>Charge to</label>
-                <select formControlName="chargedUser" class="form-control"> 
+                <input *ngIf="groupUsers.length === 1" type="text" formControlName="chargedUser" class="form-control" readonly [value]="this.chargedUser" />
+                <select *ngIf="groupUsers.length > 1" formControlName="chargedUser" class="form-control"> 
                     <option value="">Select</option>
                     <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
                 </select>
