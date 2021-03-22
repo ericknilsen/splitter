@@ -2,7 +2,7 @@
     <div class="section-warning">Before adding new expenses, please review the following charges</div>
     <app-approve-expense [pendingExpenses]="pendingExpenses"></app-approve-expense>
 </div>
-<div class="form-style" >
+<div class="form-style" *ngIf="pendingExpenses.length === 0">
     <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully created.</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="section">New Expense</div>
