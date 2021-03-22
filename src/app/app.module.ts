@@ -22,6 +22,7 @@ import { LoginComponent } from './security/login/login.component';
 import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
 import { ErrorInterceptor } from './security/error.interceptor';
 import { GOOGLE_OAUTH_CLIENT_ID } from './utils/constants';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { GOOGLE_OAUTH_CLIENT_ID } from './utils/constants';
     ApproveExpenseComponent,
     ReportComponent,
     LoginComponent,
-    LoginSocialUserComponent  
+    LoginSocialUserComponent,
+    PaymentComponent  
   ],
   imports: [
     BrowserModule,

@@ -32,6 +32,7 @@ export class AddExpenseComponent implements OnInit {
   user: any;
   chargedUser: any;
   groupUsers: any[] = [];
+  pendingExpenses: Expense[] = [];
 
   constructor(private fb: FormBuilder,
     private userGroupService: UserGroupService,
@@ -53,6 +54,7 @@ export class AddExpenseComponent implements OnInit {
   ngOnInit(): void {
     this.initCurrentUser();
     this.listUserGroupOfUser();
+    this.listPendingExpenses();
   }
 
   private initCurrentUser() {
@@ -74,7 +76,7 @@ export class AddExpenseComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
-  currentDate() {
+  private currentDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -87,7 +89,7 @@ export class AddExpenseComponent implements OnInit {
     this.form.patchValue({'proportion': this.categories.get(key)});
   }
 
-  listUserGroupOfUser() {
+  private listUserGroupOfUser() {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.groupUsers = userGroup.users.filter(u => u !== this.user.email);
       this.setChargedUser();
@@ -99,6 +101,12 @@ export class AddExpenseComponent implements OnInit {
       this.chargedUser = this.groupUsers[0];
       this.form.patchValue({'chargedUser': this.chargedUser});
     }
+  }
+
+  private listPendingExpenses() {
+    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+      this.pendingExpenses = expenses.filter(e => e.status === 'Pending' && e.chargedUser === this.user.email)
+    })
   }
 
 }

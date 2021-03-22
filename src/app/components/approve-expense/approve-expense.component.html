@@ -1,1 +1,26 @@
-<p>approve-expense works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <table formArrayName="pendingExpensesFormArray" class="table table-hover list-style">
+        <thead>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of pendingExpenses; let i = index">
+                <td><a href="#" (click)="$event.preventDefault()">{{e.description}}</a></td>
+                <td>{{e.amount}}</td>
+                <td [formGroupName]="i">
+                    <select formControlName="action" class="form-control-sm" (change)="selectAction(e, i)">
+                        <option value="">Select</option>
+                        <option *ngFor="let a of actionsList" [value]="a">{{a}}</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button-section">
+        <input type="submit" [disabled]="form.invalid" name="submit" value="Send" />
+    </div>
+</form>
