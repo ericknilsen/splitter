@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <table formArrayName="pendingExpensesFormArray" class="table table-hover list-style">
         <thead>
             <tr>
@@ -14,7 +14,7 @@
                 <td [formGroupName]="i">
                     <select formControlName="action" class="form-control-sm" (change)="selectAction(e, i)">
                         <option value="">Select</option>
-                        <option *ngFor="let a of actionsList" [value]="a">{{a}}</option>
+                        <option *ngFor="let a of actionsList" [value]="actionStatusMap.get(a)">{{a}}</option>
                     </select>
                 </td>
             </tr>

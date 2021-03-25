@@ -18,6 +18,10 @@ export class ExpensesService {
     return this.http.post<string>(`${ENDPOINT}/createExpense`, expense);
   }
 
+  update(expenses: Expense[]): Observable<string> {
+    return this.http.put<string>(`${ENDPOINT}/updateExpenses`, expenses);
+  }
+
   listExpensesByUser(userEmail: any): Observable<Expense[]> {   
     return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userEmail}`);
   }

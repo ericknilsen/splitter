@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Expense } from 'src/app/models/expense.model';
+import { ExpensesService } from 'src/app/services/expenses.service';
 import { Util } from 'src/app/utils/util';
 
 @Component({
@@ -14,12 +15,15 @@ export class ApproveExpenseComponent implements OnInit {
   pendingExpenses!: Expense[];  
 
   form: FormGroup;
+
   pendingExpensesFormArray!: FormArray;
   
   actionsList: string[] = [];
-  
 
-  constructor(private fb: FormBuilder) { 
+  actionStatusMap: Map<string, string> = new Map();
+
+  constructor(private fb: FormBuilder,
+    private expensesService: ExpensesService) { 
     this.form = this.initForm();
   }
 
@@ -28,8 +32,14 @@ export class ApproveExpenseComponent implements OnInit {
     this.initPendingExpenseFormArray();
   }
 
-  onSubmit(action: any): void {
-    console.log(action)
+  onSubmit(): void {
+    const actions = this.pendingExpensesFormArray.value;
+    for(let i = 0; i < actions.length; ++i) {
+      this.pendingExpenses[i].status = actions[i].action;
+    }
+    this.expensesService.update(this.pendingExpenses).subscribe(resp => {
+      console.log(resp);
+    })
   }  
 
   private initForm() {
@@ -45,7 +55,8 @@ export class ApproveExpenseComponent implements OnInit {
   }
 
   private initActionsList() {
-    this.actionsList = Util.getActionsList();
+    this.actionStatusMap = Util.getActionStatusMap();
+    this.actionsList = Array.from(this.actionStatusMap.keys());
   }
 
   private addNewPendingExpenseToFormArray() {
@@ -60,8 +71,7 @@ export class ApproveExpenseComponent implements OnInit {
   }
 
   selectAction(expense: Expense, index: any) {
-    const action = this.pendingExpensesFormArray.value[index].action;
-    console.log(expense, action)
+    
   }
 
 }

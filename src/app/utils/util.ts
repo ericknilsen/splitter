@@ -1,4 +1,4 @@
-import { ACTION_APPROVE, ACTION_REJECT } from "./constants";
+import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_REJECTED } from "./constants";
 
 export abstract class Util {
 
@@ -10,4 +10,9 @@ export abstract class Util {
         const statusList = [ACTION_APPROVE, ACTION_REJECT];
         return statusList;
     }
-}
+
+    static getActionStatusMap() {
+        const statusMap = new Map([[ACTION_APPROVE, STATUS_APPROVED],[ACTION_REJECT, STATUS_REJECTED]]);
+        return statusMap;
+    }
+ }
