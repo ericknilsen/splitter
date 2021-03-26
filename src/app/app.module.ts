@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+//export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddExpenseComponent } from './components/add-expense/add-expense.component';
@@ -44,7 +48,8 @@ import { ExpenseDetailComponent } from './components/expense-detail/expense-deta
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     ExpensesService,
