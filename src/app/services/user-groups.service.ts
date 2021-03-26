@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { UserGroup } from '../models/user-group.model';
 import { SocialUser } from 'angularx-social-login';
-import { ENDPOINT } from '../utils/constants';
+import { ENDPOINT } from '../common/constants';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {

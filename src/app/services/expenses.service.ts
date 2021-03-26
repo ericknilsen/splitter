@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import { Observable, Subject } from 'rxjs';
 import { Expense } from '../models/expense.model';
-import { ENDPOINT } from '../utils/constants';
+import { ENDPOINT } from '../common/constants';
 
 @Injectable()
 export class ExpensesService {
@@ -24,6 +24,10 @@ export class ExpensesService {
 
   listExpensesByUser(userEmail: any): Observable<Expense[]> {   
     return this.http.get<Expense[]>(`${ENDPOINT}/listUserExpenses/${userEmail}`);
+  }
+
+  delete(expense: Expense): Observable<string> {
+    return this.http.delete<string>(`${ENDPOINT}/deleteExpense/${expense._id}`);
   }
 
   emitExpensesChange() {

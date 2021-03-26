@@ -21,7 +21,7 @@ import { GoogleLoginProvider} from 'angularx-social-login';
 import { LoginComponent } from './security/login/login.component';
 import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
 import { ErrorInterceptor } from './security/error.interceptor';
-import { GOOGLE_OAUTH_CLIENT_ID } from './utils/constants';
+import { GOOGLE_OAUTH_CLIENT_ID } from './common/constants';
 import { PaymentComponent } from './components/payment/payment.component';
 import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
 

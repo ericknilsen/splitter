@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ENDPOINT } from '../utils/constants';
+import { ENDPOINT } from '../common/constants';
 
 
 @Injectable({

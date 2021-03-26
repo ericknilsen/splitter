@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
-import { Util } from 'src/app/utils/util';
+import { Util } from 'src/app/common/util';
 
 @Component({
   selector: 'app-approve-expense',

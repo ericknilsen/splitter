@@ -15,4 +15,13 @@ export abstract class Util {
         const statusMap = new Map([[ACTION_APPROVE, STATUS_APPROVED],[ACTION_REJECT, STATUS_REJECTED]]);
         return statusMap;
     }
+
+    static getCategories() {
+        const categories = new Map([['Grocery', 0.35],
+                            ['Housing', 0.35],
+                            ['Car', 0.5],
+                            ['Recreation', 0.5],
+                            ['Restaurant', 0.5]]);
+        return categories;
+    }
  }

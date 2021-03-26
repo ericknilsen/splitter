@@ -44,7 +44,7 @@
             </div>
             <div class="col-6">
                 <label>Proportion</label>
-                <input type="text" formControlName="proportion" class="form-control" readonly />
+                <input type="text" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
                     <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
                 </div>

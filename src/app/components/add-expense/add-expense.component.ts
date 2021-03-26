@@ -8,7 +8,7 @@ import {
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { UserGroupService } from 'src/app/services/user-groups.service';
-import { Util } from 'src/app/utils/util';
+import { Util } from 'src/app/common/util';
 
 @Component({
   selector: 'app-add-expense',
@@ -18,16 +18,9 @@ import { Util } from 'src/app/utils/util';
 export class AddExpenseComponent implements OnInit {
 
   form: FormGroup;
-  defaultProportion = 0.35;
-  halfProportion = 0.50;
-
   isSubmited: boolean = false;
 
-  categories = new Map([['Grocery', this.defaultProportion],
-  ['Housing', this.defaultProportion],
-  ['Car', this.halfProportion],
-  ['Recreation', this.halfProportion],
-  ['Restaurant', this.halfProportion]]);
+  categories = new Map();
   
   user: any;
   chargedUser: any;
@@ -53,12 +46,17 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCurrentUser();
+    this.initCategories();
     this.listUserGroupOfUser();
     this.listPendingExpenses();
   }
 
   private initCurrentUser() {
     this.user = Util.getCurrentUser();
+  }
+
+  private initCategories() {
+    this.categories = Util.getCategories();
   }
 
   onSubmit(expense: Expense): void {

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { User } from './user.model';
 import { SocialUser } from 'angularx-social-login';
 
-import {ENDPOINT} from '../utils/constants';
+import {ENDPOINT} from '../common/constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

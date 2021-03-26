@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { UserGroupService } from 'src/app/services/user-groups.service';
-import { Util } from 'src/app/utils/util';
+import { Util } from 'src/app/common/util';
 
 @Component({
   selector: 'app-dashboard',

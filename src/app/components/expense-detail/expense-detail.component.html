@@ -1,17 +1,17 @@
-<div class="form-style">
-    <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully created.</div>
+<div [ngClass]="isEditable(expense)? 'form-style': ''">
+    <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully updated.</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="form-group row">
             <div class="col-6">
-                <label>Date</label>
-                <input type="text" formControlName="date" class="form-control" />
+                <label>Date</label><label *ngIf="!isEditable(expense)">: {{expense.date}}</label>
+                <input *ngIf="isEditable(expense)" type="text" formControlName="date" class="form-control" />
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
                     <div class="error" *ngIf="f.date.errors.required">Date is required</div>
                 </div>
             </div>
             <div class="col-6">
-                <label>Category</label>
-                <select formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
+                <label>Category</label><label *ngIf="!isEditable(expense)">: {{expense.category}}</label>
+                <select *ngIf="isEditable(expense)" formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
                     <option value="">Select</option>
                     <option *ngFor="let c of categories | keyvalue" [value]="c.key">{{c.key}}</option>
                 </select>
@@ -22,15 +22,15 @@
         </div>
         <div class="form-group row">
             <div class="col-6">
-                <label>Amount</label>
-                <input type="text" formControlName="amount" class="form-control" />
+                <label>Amount</label><label *ngIf="!isEditable(expense)">: {{expense.amount}}</label>
+                <input *ngIf="isEditable(expense)" type="text" formControlName="amount" class="form-control" />
                 <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
                     <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
                 </div>
             </div>
             <div class="col-6">
-                <label>Proportion</label>
-                <input type="text" formControlName="proportion" class="form-control" />
+                <label>Proportion</label><label *ngIf="!isEditable(expense)">: {{expense.proportion}}</label>
+                <input *ngIf="isEditable(expense)" type="text" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
                     <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
                 </div>
@@ -39,19 +39,17 @@
 
         <div class="form-group row">
             <div class="col-12">
-                <label>Charge to</label>
-                <input *ngIf="groupUsers.length === 1" type="text" formControlName="chargedUser" class="form-control" readonly [value]="this.chargedUser" />
-                <select *ngIf="groupUsers.length > 1" formControlName="chargedUser" class="form-control"> 
-                    <option value="">Select</option>
-                    <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
-                </select>
-                <div *ngIf="f.chargedUser.errors && (f.chargedUser.dirty || f.chargedUser.touched)">
-                    <div class="error" *ngIf="f.chargedUser.errors.required">Charged user is required</div>
-                </div>
+                <label>Charged to: <i>{{expense.chargedUser}}</i></label>
             </div>
         </div>
 
-        <div class="button-section">
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Status: <b>{{expense.status}}</b></label>
+            </div>
+        </div>
+
+        <div class="button-section" *ngIf="isEditable(expense)">
             <input type="submit" [disabled]="form.invalid" name="submit" value="Save" />
         </div>
     </form>
