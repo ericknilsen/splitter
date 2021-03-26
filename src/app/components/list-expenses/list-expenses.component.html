@@ -1,4 +1,4 @@
-<table class="table table-hover list-style">
+<table class="table list-style">
   <thead>
     <tr>
       <th scope="col">Description</th>
@@ -7,12 +7,18 @@
       <th scope="col">Status</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let e of expenses">
-      <td><a href="#" (click)="$event.preventDefault()">{{e.description}}</a></td>
-      <td>{{e.amount}}</td>
-      <td>{{e.date}}</td>
-      <td>{{e.status}}</td>
+  <tbody *ngFor="let e of expenses; let i = index">
+    <tr>
+      <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
+      <td *ngIf="!isDisplayedList[i]">{{e.amount}}</td>
+      <td *ngIf="!isDisplayedList[i]">{{e.date}}</td>
+      <td *ngIf="!isDisplayedList[i]">{{e.status}}</td>
+      <td colspan="3" *ngIf="isDisplayedList[i]"></td>
+    </tr>
+    <tr>
+      <td colspan="4" *ngIf="isDisplayedList[i]">
+        <app-expense-detail [expense]="e"></app-expense-detail>
+      </td>
     </tr>
   </tbody>
 </table>

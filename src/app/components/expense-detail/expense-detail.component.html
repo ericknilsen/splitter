@@ -1,0 +1,58 @@
+<div class="form-style">
+    <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully created.</div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Date</label>
+                <input type="text" formControlName="date" class="form-control" />
+                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
+                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label>Category</label>
+                <select formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
+                    <option value="">Select</option>
+                    <option *ngFor="let c of categories | keyvalue" [value]="c.key">{{c.key}}</option>
+                </select>
+                <div *ngIf="f.category.errors && (f.category.dirty || f.category.touched)">
+                    <div class="error" *ngIf="f.category.errors.required">Category is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Amount</label>
+                <input type="text" formControlName="amount" class="form-control" />
+                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
+                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label>Proportion</label>
+                <input type="text" formControlName="proportion" class="form-control" />
+                <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
+                    <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-12">
+                <label>Charge to</label>
+                <input *ngIf="groupUsers.length === 1" type="text" formControlName="chargedUser" class="form-control" readonly [value]="this.chargedUser" />
+                <select *ngIf="groupUsers.length > 1" formControlName="chargedUser" class="form-control"> 
+                    <option value="">Select</option>
+                    <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
+                </select>
+                <div *ngIf="f.chargedUser.errors && (f.chargedUser.dirty || f.chargedUser.touched)">
+                    <div class="error" *ngIf="f.chargedUser.errors.required">Charged user is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-section">
+            <input type="submit" [disabled]="form.invalid" name="submit" value="Save" />
+        </div>
+    </form>
+</div>
