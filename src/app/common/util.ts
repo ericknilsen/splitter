@@ -1,3 +1,4 @@
+import { UserGroup } from "../models/user-group.model";
 import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_REJECTED } from "./constants";
 
 export abstract class Util {
@@ -16,12 +17,15 @@ export abstract class Util {
         return statusMap;
     }
 
-    static getCategories() {
-        const categories = new Map([['Grocery', 0.35],
-                            ['Housing', 0.35],
-                            ['Car', 0.5],
-                            ['Recreation', 0.5],
-                            ['Restaurant', 0.5]]);
+    static getCategories(userGroup: UserGroup, chargedUser: string) {
+        let categories = new Map();
+        const categoryList = userGroup.categories.map(c => {
+            return {type: c.type, proportion: c.proportions.filter((p: { user: any; }) => p.user === chargedUser).shift().value};
+          })
+        for (let i = 0; i < categoryList.length; ++i) {
+            categories.set(categoryList[i].type, categoryList[i].proportion);
+        }
+
         return categories;
     }
  }

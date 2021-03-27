@@ -3,7 +3,7 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense-modal';
+import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
 
 @Component({
   selector: 'app-list-expenses',

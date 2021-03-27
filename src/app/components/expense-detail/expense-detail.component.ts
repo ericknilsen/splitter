@@ -8,6 +8,7 @@ import {
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
+import { UserGroupService } from 'src/app/services/user-groups.service';
 
 @Component({
   selector: 'app-expense-detail',
@@ -27,6 +28,7 @@ export class ExpenseDetailComponent implements OnInit {
   user: any;
 
   constructor(private fb: FormBuilder,
+    private userGroupService: UserGroupService,
     private expensesService: ExpensesService) {
   }
 
@@ -45,12 +47,14 @@ export class ExpenseDetailComponent implements OnInit {
     this.initCategories();
   }
 
-  private initCurrentUser() {
-    this.user = Util.getCurrentUser();
+  private initCategories() {
+    this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
+      this.categories = Util.getCategories(userGroup, this.expense.chargedUser);
+    })
   }
 
-  private initCategories() {
-    this.categories = Util.getCategories();
+  private initCurrentUser() {
+    this.user = Util.getCurrentUser();
   }
 
   onSubmit(updatedExpense: Expense): void {

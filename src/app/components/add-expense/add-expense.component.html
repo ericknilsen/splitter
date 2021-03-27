@@ -8,8 +8,8 @@
         <div class="section">New Expense</div>
         <div class="form-group row">
             <div class="col">
-                <label>Description</label>
-                <input type="text" formControlName="description" class="form-control" />
+                <label>Description:</label>
+                <input type="text" maxlength="30" formControlName="description" class="form-control" />
                 <div *ngIf="f.description.errors && (f.description.dirty || f.description.touched)">
                     <div class="error" *ngIf="f.description.errors.required">Description is required</div>
                 </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="form-group row">
             <div class="col-6">
-                <label>Date</label>
+                <label>Date:</label>
                 <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" formControlName="date" class="form-control" />
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
                     <div class="error" *ngIf="f.date.errors.required">Date is required</div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <label>Category</label>
+                <label>Category:</label>
                 <select formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
                     <option value="">Select</option>
                     <option *ngFor="let c of categories | keyvalue" [value]="c.key">{{c.key}}</option>
@@ -37,14 +37,14 @@
         </div>
         <div class="form-group row">
             <div class="col-6">
-                <label>Amount</label>
-                <input type="text" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
+                <label>Amount:</label>
+                <input type="text" maxlength="10" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
                 <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
                     <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
                 </div>
             </div>
             <div class="col-6">
-                <label>Proportion</label>
+                <label>Proportion:</label>
                 <input type="text" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
                     <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>

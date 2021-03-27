@@ -9,6 +9,7 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { UserGroupService } from 'src/app/services/user-groups.service';
 import { Util } from 'src/app/common/util';
+import { UserGroup } from 'src/app/models/user-group.model';
 
 @Component({
   selector: 'app-add-expense',
@@ -46,7 +47,6 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCurrentUser();
-    this.initCategories();
     this.listUserGroupOfUser();
     this.listPendingExpenses();
   }
@@ -55,8 +55,8 @@ export class AddExpenseComponent implements OnInit {
     this.user = Util.getCurrentUser();
   }
 
-  private initCategories() {
-    this.categories = Util.getCategories();
+  private initCategories(userGroup: UserGroup) {
+    this.categories = Util.getCategories(userGroup, this.chargedUser);
   }
 
   onSubmit(expense: Expense): void {
@@ -91,6 +91,7 @@ export class AddExpenseComponent implements OnInit {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.groupUsers = userGroup.users.filter(u => u !== this.user.email);
       this.setChargedUser();
+      this.initCategories(userGroup);
     })
   }
 
