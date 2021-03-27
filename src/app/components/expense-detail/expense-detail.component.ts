@@ -9,6 +9,7 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { UserGroupService } from 'src/app/services/user-groups.service';
+import { STATUS_PENDING } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-expense-detail',
@@ -59,6 +60,7 @@ export class ExpenseDetailComponent implements OnInit {
 
   onSubmit(updatedExpense: Expense): void {
     this.expense = Object.assign(this.expense, updatedExpense);
+    this.expense.status = STATUS_PENDING;
     this.expensesService.update([this.expense]).subscribe(resp => {
       console.log(resp);
       this.isSubmited = true;

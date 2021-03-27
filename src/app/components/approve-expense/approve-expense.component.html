@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <table formArrayName="pendingExpensesFormArray" class="table table-hover list-style">
+    <table formArrayName="pendingExpensesFormArray" class="table list-style">
         <thead>
             <tr>
                 <th scope="col">Description</th>
@@ -7,17 +7,22 @@
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let e of pendingExpenses; let i = index">
-                <td><a href="#" (click)="$event.preventDefault()">{{e.description}}</a></td>
+        <tbody *ngFor="let e of pendingExpenses; let i = index">
+            <tr>
+                <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
                 <td>{{e.amount}}</td>
                 <td [formGroupName]="i">
-                    <select formControlName="action" class="form-control-sm" (change)="selectAction(e, i)">
+                    <select formControlName="action" class="form-control-sm">
                         <option value="">Select</option>
                         <option *ngFor="let a of actionsList" [value]="actionStatusMap.get(a)">{{a}}</option>
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td colspan="4" *ngIf="isDisplayedList[i]">
+                  <app-expense-detail [expense]="e"></app-expense-detail>
+                </td>
+              </tr>
         </tbody>
     </table>
     <div class="button-section">

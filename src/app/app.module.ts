@@ -28,6 +28,7 @@ import { ErrorInterceptor } from './security/error.interceptor';
 import { GOOGLE_OAUTH_CLIENT_ID } from './common/constants';
 import { PaymentComponent } from './components/payment/payment.component';
 import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
+import { PaymentsService } from './services/payments.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ExpenseDetailComponent } from './components/expense-detail/expense-deta
   ],
   providers: [
     ExpensesService,
+    PaymentsService,
     JwtService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

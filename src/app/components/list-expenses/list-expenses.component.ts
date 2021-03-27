@@ -31,10 +31,14 @@ export class ListExpensesComponent implements OnInit {
   private initExpenses() {
     this.expensesService.listExpensesByUser(this.user.email).subscribe(result => {
       this.expenses = result;
-      for (let i = 0; i < this.expenses.length; ++i) {
-        this.isDisplayedList[i] = false; 
-      }
+      this.initDisplayedList();
     })
+  }
+
+  private initDisplayedList() {
+    for (let i = 0; i < this.expenses.length; ++i) {
+      this.isDisplayedList[i] = false; 
+    }
   }
 
   displayExpenseDetails(index: number) {
@@ -46,6 +50,7 @@ export class ListExpensesComponent implements OnInit {
       this.expensesService.delete(expense).subscribe(resp => {
         console.log(resp)
         this.initExpenses();
+        this.expensesService.emitExpensesChange();
       })
     });
   }

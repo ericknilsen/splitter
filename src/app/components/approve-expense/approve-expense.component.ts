@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
@@ -12,7 +12,10 @@ import { Util } from 'src/app/common/util';
 export class ApproveExpenseComponent implements OnInit {
 
   @Input()
-  pendingExpenses!: Expense[];  
+  pendingExpenses!: Expense[];    
+
+  @Output()
+  submited: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
 
@@ -22,6 +25,8 @@ export class ApproveExpenseComponent implements OnInit {
 
   actionStatusMap: Map<string, string> = new Map();
 
+  isDisplayedList: boolean[] = [];
+
   constructor(private fb: FormBuilder,
     private expensesService: ExpensesService) { 
     this.form = this.initForm();
@@ -30,6 +35,7 @@ export class ApproveExpenseComponent implements OnInit {
   ngOnInit(): void {
     this.initActionsList();
     this.initPendingExpenseFormArray();
+    this.initDisplayedList();
   }
 
   onSubmit(): void {
@@ -37,9 +43,13 @@ export class ApproveExpenseComponent implements OnInit {
     for(let i = 0; i < actions.length; ++i) {
       this.pendingExpenses[i].status = actions[i].action;
     }
+    
     this.expensesService.update(this.pendingExpenses).subscribe(resp => {
       console.log(resp);
+      this.submited.emit();
+      this.expensesService.emitExpensesChange();
     })
+    
   }  
 
   private initForm() {
@@ -70,8 +80,14 @@ export class ApproveExpenseComponent implements OnInit {
     }
   }
 
-  selectAction(expense: Expense, index: any) {
-    
+  displayExpenseDetails(index: number) {
+    this.isDisplayedList[index] = !this.isDisplayedList[index]; 
+  }
+
+  private initDisplayedList() {
+    for (let i = 0; i < this.pendingExpenses.length; ++i) {
+      this.isDisplayedList[i] = false; 
+    }
   }
 
 }

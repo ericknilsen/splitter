@@ -1,1 +1,41 @@
-<p>payment works!</p>
+<div class="form-style">
+    <div class="success" *ngIf="form.pristine && isSubmited">Payment successfully registered.</div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <div class="section">New Payment</div>
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Amount:</label>
+                <input type="text" maxlength="10" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
+                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
+                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+                </div>
+            </div>
+            <div class="col-6">
+                <label>Date:</label>
+                <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" formControlName="date" class="form-control" />
+                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
+                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
+                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Date format is wrong. Use: MM/DD/YYYY</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <div class="col-12">
+                <label>Pay to</label>
+                <input *ngIf="groupUsers.length === 1" type="text" formControlName="paidUser" class="form-control" readonly [value]="this.paidUser" />
+                <select *ngIf="groupUsers.length > 1" formControlName="paidUser" class="form-control"> 
+                    <option value="">Select</option>
+                    <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
+                </select>
+                <div *ngIf="f.paidUser.errors && (f.paidUser.dirty || f.paidUser.touched)">
+                    <div class="error" *ngIf="f.paidUser.errors.required">Charged user is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-section">
+            <input type="submit" [disabled]="form.invalid" name="submit" value="Send" />
+        </div>
+    </form>
+</div>

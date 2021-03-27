@@ -26,7 +26,7 @@ export class AddExpenseComponent implements OnInit {
   user: any;
   chargedUser: any;
   groupUsers: any[] = [];
-  pendingExpenses: Expense[] = [];
+  pendingExpenses!: Expense[];
 
   constructor(private fb: FormBuilder,
     private userGroupService: UserGroupService,
@@ -37,7 +37,7 @@ export class AddExpenseComponent implements OnInit {
   private initForm() {
     return this.fb.group({
       'description': new FormControl('', Validators.required),
-      'date': new FormControl(this.currentDate(), Validators.required),
+      'date': new FormControl(Util.getCurrentDate(), Validators.required),
       'amount': new FormControl('', Validators.required),
       'proportion': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
@@ -67,21 +67,11 @@ export class AddExpenseComponent implements OnInit {
       this.isSubmited = true;
     })
 
-    this.expensesService.emitExpensesChange();
     this.form = this.initForm();
     this.setChargedUser();
   }
 
   get f() { return this.form.controls; }
-
-  private currentDate() {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    const yyyy = today.getFullYear();
-
-    return mm + '/' + dd + '/' + yyyy;
-  }
 
   selectCategory(key: any) {
     this.form.patchValue({'proportion': this.categories.get(key)});
@@ -102,9 +92,9 @@ export class AddExpenseComponent implements OnInit {
     }
   }
 
-  private listPendingExpenses() {
+  listPendingExpenses() {
     this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
-      this.pendingExpenses = expenses.filter(e => e.status === 'Pending' && e.chargedUser === this.user.email)
+      this.pendingExpenses = expenses.filter(e => e.status === 'Pending' && e.chargedUser === this.user.email);
     })
   }
 
