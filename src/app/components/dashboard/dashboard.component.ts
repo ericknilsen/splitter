@@ -62,10 +62,11 @@ export class DashboardComponent implements OnInit {
       this.totalExpenses = this.expenses
         .filter(e => e.status === STATUS_APPROVED)
         .map(e => {
+          const total = (e.amount * e.proportion)/100;
           if (e.receiverUser === this.user.email) {
-            return (e.amount * e.proportion)/100;
+            return total;
           } else {
-            return -(e.amount * e.proportion)/100;
+            return -total;
           }
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);      
 

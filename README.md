@@ -26,11 +26,13 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-## Pending Tasks
+## Phase 2
 
 * View Expenses: Pagination, Search
+* Payments: Payments Received and Payment Sent tabs and Pagination
 * Error and Success messages
-* Payments: Payments Received and Payment Sent tabs and search
 * Reports
+* Dev environment: docker
 * Refactoring
+* Unit tests
 * Documentation

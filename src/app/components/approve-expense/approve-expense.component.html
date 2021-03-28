@@ -10,7 +10,7 @@
         <tbody *ngFor="let e of pendingExpenses; let i = index">
             <tr>
                 <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
-                <td>{{e.amount}}</td>
+                <td>{{e.amount | currency}}</td>
                 <td [formGroupName]="i">
                     <select formControlName="action" class="form-control-sm">
                         <option value="">Select</option>

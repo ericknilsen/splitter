@@ -10,7 +10,7 @@
         <tbody *ngFor="let p of pendingPayments; let i = index">
             <tr>
                 <td>{{p.date}}</td>
-                <td>{{p.amount}}</td>
+                <td>{{p.amount | currency}}</td>
                 <td [formGroupName]="i">
                     <select formControlName="action" class="form-control-sm">
                         <option value="">Select</option>
@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td class="text-column" colspan="3">
-                    Paid by: <i>{{p.paidUser}}</i>
+                    Paid by: <i>{{p.chargedUser}}</i>
                 </td>
             </tr>
         </tbody>
