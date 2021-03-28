@@ -51,9 +51,9 @@
             </div>
             <div class="col-6">
                 <label>Proportion:</label>
-                <input type="text" maxlength="4" prefix="0." mask="separator.2" formControlName="proportion" class="form-control" />
+                <input type="text" mask="percent" suffix="%" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
-                    <div class="error" *ngIf="f.proportion.errors.required || f.proportion.errors.proportionRange">Proportion is required</div>
+                    <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
                 </div>
             </div>
         </div>

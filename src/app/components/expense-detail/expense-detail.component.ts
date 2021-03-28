@@ -10,7 +10,6 @@ import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { UserGroupService } from 'src/app/services/user-groups.service';
 import { STATUS_PENDING } from 'src/app/common/constants';
-import { CustomValidators } from 'src/app/common/custom-validators';
 
 @Component({
   selector: 'app-expense-detail',
@@ -38,7 +37,7 @@ export class ExpenseDetailComponent implements OnInit {
     return this.fb.group({
       'date': new FormControl(this.expense.date, Validators.required),
       'amount': new FormControl(this.expense.amount, Validators.required),
-      'proportion': new FormControl(this.expense.proportion, [Validators.required, CustomValidators.proportionRangeValidator]),
+      'proportion': new FormControl(this.expense.proportion, Validators.required),
       'category': new FormControl(this.expense.category, Validators.required)
     });
   }

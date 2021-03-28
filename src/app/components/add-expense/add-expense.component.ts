@@ -12,7 +12,6 @@ import { Util } from 'src/app/common/util';
 import { UserGroup } from 'src/app/models/user-group.model';
 import { Payment } from 'src/app/models/payment.model';
 import { PaymentsService } from 'src/app/services/payments.service';
-import { CustomValidators } from 'src/app/common/custom-validators';
 
 @Component({
   selector: 'app-add-expense',
@@ -44,7 +43,7 @@ export class AddExpenseComponent implements OnInit {
       'description': new FormControl('', Validators.required),
       'date': new FormControl(Util.getCurrentDate(), Validators.required),
       'amount': new FormControl('', Validators.required),
-      'proportion': new FormControl('', [Validators.required, CustomValidators.proportionRangeValidator]),
+      'proportion': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
       'chargedUser': new FormControl('', Validators.required)
     });

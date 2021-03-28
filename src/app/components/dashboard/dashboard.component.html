@@ -16,8 +16,8 @@
   <!-- Main -->
   <div class="content" role="main">
     <div class="balance">
-        <p *ngIf="balance > 0">Receive from <i>{{chargedUser}}</i>: <b>${{balance.toFixed(2)}}</b></p>
-        <p *ngIf="balance < 0">Transfer to <i>{{chargedUser}}</i>: <b>${{(-balance).toFixed(2)}}</b></p>
+        <p *ngIf="balance > 0">Receive from <i>{{chargedUser}}</i>: <b>{{balance | currency}}</b></p>
+        <p *ngIf="balance < 0">Transfer to <i>{{chargedUser}}</i>: <b>{{-balance | currency}}</b></p>
     </div>
 
     <div class="card-container">

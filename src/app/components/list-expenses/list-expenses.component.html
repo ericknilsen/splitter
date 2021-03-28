@@ -10,7 +10,7 @@
   <tbody *ngFor="let e of expenses; let i = index">
     <tr>
       <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
-      <td *ngIf="!isDisplayedList[i]">{{e.amount}}</td>
+      <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
       <td *ngIf="!isDisplayedList[i]">{{e.date}}</td>
       <td colspan="2" *ngIf="isDisplayedList[i]"></td>
       <td *ngIf="!isEditable(e)"></td>
