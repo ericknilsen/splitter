@@ -29,6 +29,7 @@ import { GOOGLE_OAUTH_CLIENT_ID } from './common/constants';
 import { PaymentComponent } from './components/payment/payment.component';
 import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
 import { PaymentsService } from './services/payments.service';
+import { ApprovePaymentComponent } from './components/approve-payment/approve-payment.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { PaymentsService } from './services/payments.service';
     LoginComponent,
     LoginSocialUserComponent,
     PaymentComponent,
-    ExpenseDetailComponent  
+    ExpenseDetailComponent,
+    ApprovePaymentComponent  
   ],
   imports: [
     BrowserModule,

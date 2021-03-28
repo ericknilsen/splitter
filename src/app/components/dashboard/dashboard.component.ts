@@ -28,12 +28,19 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
     this.subscribeToExpensesChangeEmittedEvent();
+    this.subscribeToPaymentsChangeEmittedEvent();
     this.setChargedUser();
     this.setBalance();
   }
 
   private subscribeToExpensesChangeEmittedEvent() {
     this.expensesService.expensesChangeEmitted$.subscribe(() => {
+      this.setBalance()
+    });
+  }
+
+  private subscribeToPaymentsChangeEmittedEvent() {
+    this.paymentsService.paymentsChangeEmitted$.subscribe(() => {
       this.setBalance()
     });
   }
@@ -72,9 +79,9 @@ export class DashboardComponent implements OnInit {
         .filter(p => p.status === STATUS_APPROVED)
         .map(p => {
           if (p.paidUser === this.user.email) {
-            return p.amount;
+            return p.amount * 1;
           } else {
-            return -p.amount;
+            return -p.amount * 1;
           }
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 

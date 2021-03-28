@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <table formArrayName="pendingPaymentsFormArray" class="table list-style">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let p of pendingPayments; let i = index">
+            <tr>
+                <td>{{p.date}}</td>
+                <td>{{p.amount}}</td>
+                <td [formGroupName]="i">
+                    <select formControlName="action" class="form-control-sm">
+                        <option value="">Select</option>
+                        <option *ngFor="let a of actionsList" [value]="actionStatusMap.get(a)">{{a}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-column" colspan="3">
+                    Paid by: <i>{{p.paidUser}}</i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button-section">
+        <input type="submit" [disabled]="form.invalid" name="submit" value="Send" />
+    </div>
+</form>

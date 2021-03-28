@@ -15,7 +15,7 @@
                 <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" formControlName="date" class="form-control" />
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
                     <div class="error" *ngIf="f.date.errors.required">Date is required</div>
-                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Date format is wrong. Use: MM/DD/YYYY</div>
+                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
                 </div>
             </div>
         </div>
@@ -23,8 +23,7 @@
         <div class="form-group row">
             <div class="col-12">
                 <label>Pay to</label>
-                <input *ngIf="groupUsers.length === 1" type="text" formControlName="paidUser" class="form-control" readonly [value]="this.paidUser" />
-                <select *ngIf="groupUsers.length > 1" formControlName="paidUser" class="form-control"> 
+                <select formControlName="paidUser" class="form-control"> 
                     <option value="">Select</option>
                     <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
                 </select>

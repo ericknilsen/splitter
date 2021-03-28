@@ -45,7 +45,6 @@ export class ApproveExpenseComponent implements OnInit {
     }
     
     this.expensesService.update(this.pendingExpenses).subscribe(resp => {
-      console.log(resp);
       this.submited.emit();
       this.expensesService.emitExpensesChange();
     })

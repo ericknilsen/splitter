@@ -3,13 +3,16 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { UserGroupService } from 'src/app/services/user-groups.service';
 import { Util } from 'src/app/common/util';
 import { UserGroup } from 'src/app/models/user-group.model';
+import { Payment } from 'src/app/models/payment.model';
+import { PaymentsService } from 'src/app/services/payments.service';
+import { CustomValidators } from 'src/app/common/custom-validators';
 
 @Component({
   selector: 'app-add-expense',
@@ -27,9 +30,11 @@ export class AddExpenseComponent implements OnInit {
   chargedUser: any;
   groupUsers: any[] = [];
   pendingExpenses!: Expense[];
+  pendingPayments!: Payment[];
 
   constructor(private fb: FormBuilder,
     private userGroupService: UserGroupService,
+    private paymentsService: PaymentsService,
     private expensesService: ExpensesService) {
     this.form = this.initForm();
   }
@@ -39,7 +44,7 @@ export class AddExpenseComponent implements OnInit {
       'description': new FormControl('', Validators.required),
       'date': new FormControl(Util.getCurrentDate(), Validators.required),
       'amount': new FormControl('', Validators.required),
-      'proportion': new FormControl('', Validators.required),
+      'proportion': new FormControl('', [Validators.required, CustomValidators.proportionRangeValidator]),
       'category': new FormControl('', Validators.required),
       'chargedUser': new FormControl('', Validators.required)
     });
@@ -49,6 +54,7 @@ export class AddExpenseComponent implements OnInit {
     this.initCurrentUser();
     this.listUserGroupOfUser();
     this.listPendingExpenses();
+    this.listPendingPayments();
   }
 
   private initCurrentUser() {
@@ -96,6 +102,25 @@ export class AddExpenseComponent implements OnInit {
     this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
       this.pendingExpenses = expenses.filter(e => e.status === 'Pending' && e.chargedUser === this.user.email);
     })
+  }
+
+  listPendingPayments() {
+    this.paymentsService.listPaymentsByUser(this.user.email).subscribe(payments => {
+      this.pendingPayments = payments.filter(p => p.status === 'Pending' && p.paidUser === this.user.email);
+    })
+  }
+
+  hideAddExpenseForm() { 
+    return ((this.pendingExpenses && this.pendingExpenses.length > 0) ||
+            (this.pendingPayments && this.pendingPayments.length > 0));
+  }
+
+  displayPendingExpensesForm() {
+    return this.pendingExpenses && this.pendingExpenses.length > 0;
+  }
+
+  displayPendingPaymentsForm() {
+    return this.pendingPayments && this.pendingPayments.length > 0;
   }
 
 }

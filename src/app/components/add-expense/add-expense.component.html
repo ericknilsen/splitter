@@ -1,8 +1,14 @@
-<div class="form-style" *ngIf="pendingExpenses && pendingExpenses.length > 0">
+<div class="form-style" *ngIf="displayPendingExpensesForm()">
     <div class="section-warning">Before adding new expenses, please review the following charges</div>
     <app-approve-expense (submited)="listPendingExpenses()" [pendingExpenses]="pendingExpenses"></app-approve-expense>
 </div>
-<div class="form-style" *ngIf="pendingExpenses && pendingExpenses.length === 0">
+
+<div class="form-style" *ngIf="displayPendingPaymentsForm()">
+    <div class="section-warning">Before adding new expenses, please review the following payments</div>
+    <app-approve-payment (submited)="listPendingPayments()" [pendingPayments]="pendingPayments"></app-approve-payment>
+</div>
+
+<div class="form-style" *ngIf="!hideAddExpenseForm()">
     <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully created.</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="section">New Expense</div>
@@ -21,7 +27,7 @@
                 <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" formControlName="date" class="form-control" />
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
                     <div class="error" *ngIf="f.date.errors.required">Date is required</div>
-                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Date format is wrong. Use: MM/DD/YYYY</div>
+                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
                 </div>
             </div>
             <div class="col-6">
@@ -45,9 +51,9 @@
             </div>
             <div class="col-6">
                 <label>Proportion:</label>
-                <input type="text" formControlName="proportion" class="form-control" />
+                <input type="text" maxlength="4" prefix="0." mask="separator.2" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
-                    <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
+                    <div class="error" *ngIf="f.proportion.errors.required || f.proportion.errors.proportionRange">Proportion is required</div>
                 </div>
             </div>
         </div>
@@ -55,8 +61,7 @@
         <div class="form-group row">
             <div class="col-12">
                 <label>Charge to</label>
-                <input *ngIf="groupUsers.length === 1" type="text" formControlName="chargedUser" class="form-control" readonly [value]="this.chargedUser" />
-                <select *ngIf="groupUsers.length > 1" formControlName="chargedUser" class="form-control"> 
+                <select formControlName="chargedUser" class="form-control"> 
                     <option value="">Select</option>
                     <option *ngFor="let u of groupUsers" [value]="u">{{u}}</option>
                 </select>

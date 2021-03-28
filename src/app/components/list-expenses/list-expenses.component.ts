@@ -48,7 +48,6 @@ export class ListExpensesComponent implements OnInit {
   deleteExpense(expense: Expense) {
     this.modalService.open(DeleteExpenseModalConfirm).closed.subscribe(() => {
       this.expensesService.delete(expense).subscribe(resp => {
-        console.log(resp)
         this.initExpenses();
         this.expensesService.emitExpensesChange();
       })

@@ -49,9 +49,7 @@ export class PaymentComponent implements OnInit {
   onSubmit(payment: Payment): void {
     payment.status = 'Pending';
     payment.chargedUser = this.user.email;
-    console.log(payment)
     this.paymentsService.add(payment).subscribe(resp => {
-      console.log(`Payment added with ID: ${resp}`);
       this.isSubmited = true;
     });
 
