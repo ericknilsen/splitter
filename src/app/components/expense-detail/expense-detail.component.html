@@ -4,7 +4,7 @@
         <div class="form-group row">
             <div class="col-6">
                 <label>Date:</label>&nbsp;<label *ngIf="!isEditable(expense)">{{expense.date}}</label>
-                <input *ngIf="isEditable(expense)" type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" formControlName="date" class="form-control" />
+                <input *ngIf="isEditable(expense)" type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" formControlName="date" class="form-control" />
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
                     <div class="error" *ngIf="f.date.errors.required">Date is required</div>
                     <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
