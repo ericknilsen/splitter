@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ENDPOINT } from '../common/constants';
 import { Payment } from '../models/payment.model';
-import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable()
 export class PaymentsService {
