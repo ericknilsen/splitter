@@ -30,6 +30,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
 import { PaymentsService } from './services/payments.service';
 import { ApprovePaymentComponent } from './components/approve-payment/approve-payment.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ApprovePaymentComponent } from './components/approve-payment/approve-pa
   providers: [
     ExpensesService,
     PaymentsService,
+    DatePipe,
     JwtService,
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

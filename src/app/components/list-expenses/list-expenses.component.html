@@ -11,7 +11,7 @@
     <tr>
       <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
       <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
-      <td *ngIf="!isDisplayedList[i]">{{e.date}}</td>
+      <td *ngIf="!isDisplayedList[i]">{{e.date | date}}</td>
       <td colspan="2" *ngIf="isDisplayedList[i]"></td>
       <td *ngIf="!isEditable(e)"></td>
       <td *ngIf="isEditable(e)">

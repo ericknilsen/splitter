@@ -9,7 +9,7 @@
         </thead>
         <tbody *ngFor="let p of pendingPayments; let i = index">
             <tr>
-                <td>{{p.date}}</td>
+                <td>{{p.date | date}}</td>
                 <td>{{p.amount | currency}}</td>
                 <td [formGroupName]="i">
                     <select formControlName="action" class="form-control-sm">
