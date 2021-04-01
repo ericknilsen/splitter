@@ -30,8 +30,13 @@ export class ExpensesService {
     return this.http.delete<string>(`${ENDPOINT}/deleteExpense/${expense._id}`);
   }
 
+  search(searchParams: any): Observable<Expense[]> {
+    return this.http.post<Expense[]>(`${ENDPOINT}/searchExpenses`, searchParams);
+  }
+
   emitExpensesChange() {
     this.emitChangeExpenses.next();
   }
+
 
 }

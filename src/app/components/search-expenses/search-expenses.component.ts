@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,8 @@ import { Util } from 'src/app/common/util';
   styleUrls: ['./search-expenses.component.css']
 })
 export class SearchExpensesComponent implements OnInit {
+  @Output()
+  searchChanges: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
   
@@ -33,6 +35,7 @@ export class SearchExpensesComponent implements OnInit {
   ngOnInit(): void {
     this.initStatus();
     this.initMonths();
+    this.selectParams();
   }
 
   private initStatus() {
@@ -45,9 +48,13 @@ export class SearchExpensesComponent implements OnInit {
     this.form.patchValue({'month': Util.getCurrentMonth()});
   }
 
-  selectMonth(month: string) {
-    console.log(month)
-  } 
+  selectParams() {
+    this.emitSearchChanges();
+  }
+  
+  private emitSearchChanges() {
+    this.searchChanges.emit(this.form.value);
+  }
 
   get f() { return this.form.controls; }
 

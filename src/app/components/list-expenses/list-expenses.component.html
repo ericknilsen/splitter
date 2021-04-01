@@ -1,5 +1,5 @@
-<div *ngIf="false">
-  <app-search-expenses></app-search-expenses>
+<div>
+  <app-search-expenses (searchChanges)="searchExpenses($event)"></app-search-expenses>
 </div>
 
 <table class="table list-style">
@@ -34,7 +34,7 @@
     </tr>
   </tbody>
 </table>
-<div>
+<div *ngIf="expenses && expenses.length > 0">
   <ngb-pagination
     [(page)]="page"
     [pageSize]="pageSize"

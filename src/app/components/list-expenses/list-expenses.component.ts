@@ -14,8 +14,8 @@ export class ListExpensesComponent implements OnInit {
   expenses: Expense[] = [];
   isDisplayedList: boolean[] = [];
   page = 1;
-  pageSize = 10;
-
+  pageSize = 5;
+  searchParams: any;
   user: any;
 
   constructor(private expensesService: ExpensesService,
@@ -23,18 +23,10 @@ export class ListExpensesComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCurrentUser();
-    this.initExpenses();
   }
 
   private initCurrentUser() {
     this.user = Util.getCurrentUser();
-  }
-
-  private initExpenses() {
-    this.expensesService.listExpensesByUser(this.user.email).subscribe(result => {
-      this.expenses = result;
-      this.initDisplayedList();
-    })
   }
 
   private initDisplayedList() {
@@ -50,7 +42,7 @@ export class ListExpensesComponent implements OnInit {
   deleteExpense(expense: Expense) {
     this.modalService.open(DeleteExpenseModalConfirm).closed.subscribe(() => {
       this.expensesService.delete(expense).subscribe(resp => {
-        this.initExpenses();
+        this.searchExpenses();
         this.expensesService.emitExpensesChange();
       })
     });
@@ -58,6 +50,18 @@ export class ListExpensesComponent implements OnInit {
 
   isEditable(expense: Expense) {
     return expense.receiverUser === this.user.email;
+  }
+
+  searchExpenses(searchParams?: any) {
+    if (searchParams) {
+      this.searchParams = searchParams;
+    }
+    this.searchParams.userEmail = this.user.email;
+    this.expensesService.search(this.searchParams).subscribe(result => {
+      this.expenses = result;
+      this.initDisplayedList();
+    })
+   
   }
 
 }

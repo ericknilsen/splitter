@@ -1,5 +1,5 @@
 import { UserGroup } from "../models/user-group.model";
-import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_REJECTED } from "./constants";
+import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from "./constants";
 
 export abstract class Util {
 
@@ -13,7 +13,7 @@ export abstract class Util {
     }
 
     static getStatusList() {
-        const statusList = [STATUS_APPROVED, STATUS_REJECTED];
+        const statusList = [STATUS_APPROVED, STATUS_REJECTED, STATUS_PENDING];
         return statusList;
     }
 
