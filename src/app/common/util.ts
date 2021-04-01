@@ -8,7 +8,12 @@ export abstract class Util {
     }
 
     static getActionsList() {
-        const statusList = [ACTION_APPROVE, ACTION_REJECT];
+        const actionsList = [ACTION_APPROVE, ACTION_REJECT];
+        return actionsList;
+    }
+
+    static getStatusList() {
+        const statusList = [STATUS_APPROVED, STATUS_REJECTED];
         return statusList;
     }
 
@@ -36,5 +41,30 @@ export abstract class Util {
         const yyyy = today.getFullYear();
     
         return mm + '/' + dd + '/' + yyyy;
-      }
+    }
+
+    static getMonths() {
+
+        const months = new Map([["01", "January"],
+                                    ["02", "February"],
+                                    ["03", "March"],
+                                    ["04", "April"],
+                                    ["05", "May"],
+                                    ["06", "June"],
+                                    ["07", "July"],
+                                    ["08", "August"],
+                                    ["09", "September"],
+                                    ["10", "October"],
+                                    ["11", "November"],
+                                    ["12", "December"],
+                                 ]);
+        return months;
+    }
+
+    static getCurrentMonth() {
+        const today = new Date();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+
+        return mm;
+    }
  }

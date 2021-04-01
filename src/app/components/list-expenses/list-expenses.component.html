@@ -1,3 +1,7 @@
+<div *ngIf="false">
+  <app-search-expenses></app-search-expenses>
+</div>
+
 <table class="table list-style">
   <thead>
     <tr>
@@ -7,7 +11,7 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngFor="let e of expenses; let i = index">
+  <tbody *ngFor="let e of expenses | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index">
     <tr>
       <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
       <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
@@ -30,3 +34,11 @@
     </tr>
   </tbody>
 </table>
+<div>
+  <ngb-pagination
+    [(page)]="page"
+    [pageSize]="pageSize"
+    [collectionSize]="expenses.length"
+    [boundaryLinks]="true">
+  </ngb-pagination>
+</div>

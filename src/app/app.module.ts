@@ -16,6 +16,7 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ExpensesService } from './services/expenses.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './security/jwt.interceptor';
@@ -31,6 +32,7 @@ import { ExpenseDetailComponent } from './components/expense-detail/expense-deta
 import { PaymentsService } from './services/payments.service';
 import { ApprovePaymentComponent } from './components/approve-payment/approve-payment.component';
 import { DatePipe } from '@angular/common';
+import { SearchExpensesComponent } from './components/search-expenses/search-expenses.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { DatePipe } from '@angular/common';
     LoginSocialUserComponent,
     PaymentComponent,
     ExpenseDetailComponent,
-    ApprovePaymentComponent  
+    ApprovePaymentComponent,
+    SearchExpensesComponent  
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    NgbModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

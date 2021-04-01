@@ -1,0 +1,19 @@
+<div>
+    <form [formGroup]="form">        
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Month</label>
+                <select formControlName="month" class="form-control" (change)="selectMonth(form.value.month)"> 
+                    <option *ngFor="let m of monthsList" [value]="m">{{months.get(m)}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label>Status</label>
+                <select formControlName="status" class="form-control"> 
+                    <option value="">Select</option>
+                    <option *ngFor="let s of status" [value]="s">{{s}}</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>

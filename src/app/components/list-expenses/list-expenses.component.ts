@@ -13,6 +13,8 @@ import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
 export class ListExpensesComponent implements OnInit {
   expenses: Expense[] = [];
   isDisplayedList: boolean[] = [];
+  page = 1;
+  pageSize = 10;
 
   user: any;
 
