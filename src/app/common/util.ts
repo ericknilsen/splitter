@@ -67,4 +67,14 @@ export abstract class Util {
 
         return mm;
     }
+
+    static getTimezoneOffset() {
+        const offset = new Date().getTimezoneOffset();
+    
+        if (offset >= 0) {
+        return '+'+offset;
+        } else {
+        return offset.toString();
+        }
+    }
  }

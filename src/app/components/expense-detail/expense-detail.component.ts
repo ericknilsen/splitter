@@ -21,7 +21,7 @@ export class ExpenseDetailComponent implements OnInit {
 
   @Input()
   expense!: Expense;
-
+  offset: any;
   form!: FormGroup;
   isSubmited: boolean = false;
 
@@ -37,7 +37,7 @@ export class ExpenseDetailComponent implements OnInit {
 
   private initForm() {
     return this.fb.group({
-      'date': new FormControl(this.datePipe.transform(this.expense.date, 'MM/dd/yyyy'), Validators.required),
+      'date': new FormControl(this.datePipe.transform(this.expense.date, 'MM/dd/yyyy', this.offset), Validators.required),
       'amount': new FormControl(this.expense.amount, Validators.required),
       'proportion': new FormControl(this.expense.proportion, Validators.required),
       'category': new FormControl(this.expense.category, Validators.required)
@@ -45,6 +45,7 @@ export class ExpenseDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setTimezoneOffset();
     this.form = this.initForm();
     this.initCurrentUser();
     this.initCategories();
@@ -79,5 +80,9 @@ export class ExpenseDetailComponent implements OnInit {
 
   isEditable(expense: Expense) {
     return expense.receiverUser === this.user.email;
+  }
+
+  setTimezoneOffset() {
+    this.offset = Util.getTimezoneOffset();
   }
 }

@@ -28,11 +28,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Phase 2
 
-* View Expenses: Pagination, Search
+* View Expenses: Pagination (back-end)
 * Payments: Payments Received and Payment Sent tabs and Pagination
+* Dev environment: docker
 * Error and Success messages
 * Reports
-* Dev environment: docker
+* Group management
 * Refactoring
 * Unit tests
 * Documentation

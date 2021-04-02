@@ -17,12 +17,14 @@ export class ListExpensesComponent implements OnInit {
   pageSize = 5;
   searchParams: any;
   user: any;
+  offset: any;
 
   constructor(private expensesService: ExpensesService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.initCurrentUser();
+    this.setTimezoneOffset();
   }
 
   private initCurrentUser() {
@@ -62,6 +64,10 @@ export class ListExpensesComponent implements OnInit {
       this.initDisplayedList();
     })
    
+  }
+
+  setTimezoneOffset() {
+    this.offset = Util.getTimezoneOffset();
   }
 
 }

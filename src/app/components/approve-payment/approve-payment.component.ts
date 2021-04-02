@@ -18,7 +18,7 @@ export class ApprovePaymentComponent implements OnInit {
   submited: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
-
+  offset: any;
   pendingPaymentsFormArray!: FormArray;
   
   actionsList: string[] = [];
@@ -33,6 +33,7 @@ export class ApprovePaymentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setTimezoneOffset();
     this.initActionsList();
     this.initPendingPaymentFormArray();
     this.initDisplayedList();
@@ -89,5 +90,7 @@ export class ApprovePaymentComponent implements OnInit {
     }
   }
 
-
+  setTimezoneOffset() {
+    this.offset = Util.getTimezoneOffset();
+  }
 }
