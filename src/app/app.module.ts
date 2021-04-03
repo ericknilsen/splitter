@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { NgxMaskModule, IConfig } from 'ngx-mask'
-
-//export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
-
+import { NgxMaskModule } from 'ngx-mask'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddExpenseComponent } from './components/add-expense/add-expense.component';
@@ -33,6 +29,8 @@ import { PaymentsService } from './services/payments.service';
 import { ApprovePaymentComponent } from './components/approve-payment/approve-payment.component';
 import { DatePipe } from '@angular/common';
 import { SearchExpensesComponent } from './components/search-expenses/search-expenses.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -57,6 +55,8 @@ import { SearchExpensesComponent } from './components/search-expenses/search-exp
     ReactiveFormsModule,
     SocialLoginModule,
     NgbModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

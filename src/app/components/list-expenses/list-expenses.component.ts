@@ -4,6 +4,7 @@ import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-expenses',
@@ -20,6 +21,7 @@ export class ListExpensesComponent implements OnInit {
   offset: any;
 
   constructor(private expensesService: ExpensesService,
+              private spinnerService: NgxSpinnerService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -42,10 +44,12 @@ export class ListExpensesComponent implements OnInit {
   }
 
   deleteExpense(expense: Expense) {
+    this.spinnerService.show();
     this.modalService.open(DeleteExpenseModalConfirm).closed.subscribe(() => {
-      this.expensesService.delete(expense).subscribe(resp => {
+      this.expensesService.delete(expense).subscribe(() => {
         this.searchExpenses();
         this.expensesService.emitExpensesChange();
+        this.spinnerService.hide();
       })
     });
   }
@@ -55,6 +59,7 @@ export class ListExpensesComponent implements OnInit {
   }
 
   searchExpenses(searchParams?: any) {
+    this.spinnerService.show();
     if (searchParams) {
       this.searchParams = searchParams;
     }
@@ -62,6 +67,7 @@ export class ListExpensesComponent implements OnInit {
     this.expensesService.search(this.searchParams).subscribe(result => {
       this.expenses = result;
       this.initDisplayedList();
+      this.spinnerService.hide();
     })
    
   }
