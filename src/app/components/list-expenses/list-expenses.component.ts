@@ -5,6 +5,7 @@ import { Util } from 'src/app/common/util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PAGE_SIZE } from 'src/app/common/constants';
 
 @Component({
   selector: 'app-list-expenses',
@@ -13,9 +14,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ListExpensesComponent implements OnInit {
   expenses: Expense[] = [];
+  expensesSize: number = 0;
   isDisplayedList: boolean[] = [];
   page = 1;
-  pageSize = 5;
+  pageSize = PAGE_SIZE;
   searchParams: any;
   user: any;
   offset: any;
@@ -44,8 +46,8 @@ export class ListExpensesComponent implements OnInit {
   }
 
   deleteExpense(expense: Expense) {
-    this.spinnerService.show();
     this.modalService.open(DeleteExpenseModalConfirm).closed.subscribe(() => {
+      this.spinnerService.show();
       this.expensesService.delete(expense).subscribe(() => {
         this.searchExpenses();
         this.expensesService.emitExpensesChange();
@@ -64,16 +66,30 @@ export class ListExpensesComponent implements OnInit {
       this.searchParams = searchParams;
     }
     this.searchParams.userEmail = this.user.email;
+
+    this.expensesService.searchSize(this.searchParams).subscribe(size => {
+      this.expensesSize = size;
+      this.loadPage(1);
+    })   
+  }
+
+  private search(page: number) {
+    this.searchParams.page = page;
+    this.searchParams.limit = PAGE_SIZE;
     this.expensesService.search(this.searchParams).subscribe(result => {
       this.expenses = result;
       this.initDisplayedList();
       this.spinnerService.hide();
     })
-   
   }
 
   setTimezoneOffset() {
     this.offset = Util.getTimezoneOffset();
+  }
+
+  loadPage(page: number) {
+    this.search(page);
+    this.page = page;
   }
 
 }

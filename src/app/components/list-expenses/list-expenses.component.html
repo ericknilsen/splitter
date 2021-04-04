@@ -11,7 +11,7 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngFor="let e of expenses | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index">
+  <tbody *ngFor="let e of expenses; let i = index">
     <tr>
       <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
       <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
@@ -36,9 +36,10 @@
 </table>
 <div *ngIf="expenses && expenses.length > 0">
   <ngb-pagination
+    (pageChange)="loadPage($event)"
     [(page)]="page"
     [pageSize]="pageSize"
-    [collectionSize]="expenses.length"
+    [collectionSize]="expensesSize"
     [boundaryLinks]="true">
   </ngb-pagination>
 </div>

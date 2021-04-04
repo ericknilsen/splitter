@@ -34,6 +34,10 @@ export class ExpensesService {
     return this.http.post<Expense[]>(`${ENDPOINT}/searchExpenses`, searchParams);
   }
 
+  searchSize(searchParams: any): Observable<number> {
+    return this.http.post<number>(`${ENDPOINT}/searchExpensesSize`, searchParams);
+  }
+
   emitExpensesChange() {
     this.emitChangeExpenses.next();
   }

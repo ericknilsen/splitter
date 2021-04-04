@@ -13,3 +13,5 @@ export const STATUS_REJECTED = 'Rejected';
 
 export const ACTION_APPROVE = 'Approve';
 export const ACTION_REJECT = 'Reject';
+
+export const PAGE_SIZE = 5;
