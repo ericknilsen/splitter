@@ -79,7 +79,7 @@ export class ExpenseDetailComponent implements OnInit {
   }
 
   isEditable(expense: Expense) {
-    return expense.receiverUser === this.user.email;
+    return expense.receiverUser === this.user.email && expense.status === STATUS_PENDING;
   }
 
   setTimezoneOffset() {
