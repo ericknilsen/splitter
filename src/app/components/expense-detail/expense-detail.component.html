@@ -52,6 +52,9 @@
 
         <div class="form-group row">
             <div class="col-6">
+                <label>Payable: <b>{{(expense.amount * expense.proportion)/100 | currency}}</b></label>
+            </div>
+            <div class="col-6">
                 <label>Status: <b>{{expense.status}}</b></label>
             </div>
         </div>
