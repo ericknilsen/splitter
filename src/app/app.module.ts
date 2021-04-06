@@ -12,7 +12,7 @@ import {
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExpensesService } from './services/expenses.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './security/jwt.interceptor';
@@ -31,6 +31,7 @@ import { DatePipe } from '@angular/common';
 import { SearchExpensesComponent } from './components/search-expenses/search-expenses.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CustomDateParserFormatter } from './common/custom-date.formatter';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           }
         ]
       } as SocialAuthServiceConfig,
-    }],
+    },
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

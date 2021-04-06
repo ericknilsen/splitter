@@ -1,3 +1,4 @@
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { UserGroup } from "../models/user-group.model";
 import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from "./constants";
 
@@ -34,13 +35,25 @@ export abstract class Util {
         return categories;
     }
 
+    static dateToString(day: number, month: number, year: number) {
+        const dd = String(day).padStart(2, '0');
+        const mm = String(month).padStart(2, '0'); //January is 0!
+        const yyyy = year;
+
+        return mm + '/' + dd + '/' + yyyy;
+    }
+
     static getCurrentDate() {
         const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        const yyyy = today.getFullYear();
-    
-        return mm + '/' + dd + '/' + yyyy;
+        return this.dateToString(today.getDate(), today.getMonth()+1, today.getFullYear());
+    }
+
+    static formatDate(date: NgbDateStruct | null): string {
+        if (!date) {
+          return '';
+        }
+
+        return this.dateToString(date.day, date.month, date.year);
     }
 
     static getMonths() {

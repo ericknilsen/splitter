@@ -12,11 +12,12 @@ import { Util } from 'src/app/common/util';
 import { UserGroup } from 'src/app/models/user-group.model';
 import { Payment } from 'src/app/models/payment.model';
 import { PaymentsService } from 'src/app/services/payments.service';
+import { NgbCalendar, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
-  styleUrls: ['./add-expense.component.css']
+  styleUrls: ['./add-expense.component.css'],
 })
 export class AddExpenseComponent implements OnInit {
 
@@ -32,6 +33,7 @@ export class AddExpenseComponent implements OnInit {
   pendingPayments!: Payment[];
 
   constructor(private fb: FormBuilder,
+    private ngbCalendar: NgbCalendar,
     private userGroupService: UserGroupService,
     private paymentsService: PaymentsService,
     private expensesService: ExpensesService) {
@@ -41,7 +43,7 @@ export class AddExpenseComponent implements OnInit {
   private initForm() {
     return this.fb.group({
       'description': new FormControl('', Validators.required),
-      'date': new FormControl(Util.getCurrentDate(), Validators.required),
+      'date': new FormControl(this.ngbCalendar.getToday(), Validators.required),
       'amount': new FormControl('', Validators.required),
       'proportion': new FormControl('', Validators.required),
       'category': new FormControl('', Validators.required),
@@ -67,11 +69,13 @@ export class AddExpenseComponent implements OnInit {
   onSubmit(expense: Expense): void {
     expense.status = 'Pending';
     expense.receiverUser = this.user.email;
+    expense.date = Util.formatDate(this.form.value.date);
+    
     this.expensesService.add(expense).subscribe(resp => {
       console.log(`Expense added with ID: ${resp}`);
       this.isSubmited = true;
     })
-
+    
     this.form = this.initForm();
     this.setChargedUser();
   }

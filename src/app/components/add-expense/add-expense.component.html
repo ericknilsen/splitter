@@ -24,10 +24,14 @@
         <div class="form-group row">
             <div class="col-6">
                 <label>Date:</label>
-                <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" formControlName="date" class="form-control" />
+                <div class="input-group">
+                    <input class="form-control" readonly type="text" formControlName="date" ngbDatepicker #date="ngbDatepicker">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="date.toggle()" type="button"></button>
+                    </div>
+                </div>
                 <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
-                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
-                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
+                    <div class="error" *ngIf="f.date.errors">Date is required</div>
                 </div>
             </div>
             <div class="col-6">
