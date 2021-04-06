@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-6">
+            <div class="col-7">
                 <label>Date:</label>
                 <div class="input-group">
                     <input class="form-control" readonly type="text" formControlName="date" ngbDatepicker #date="ngbDatepicker">
@@ -34,7 +34,16 @@
                     <div class="error" *ngIf="f.date.errors">Date is required</div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-5">
+                <label>Amount:</label>
+                <input type="text" maxlength="10" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
+                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
+                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-7">
                 <label>Category:</label>
                 <select formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
                     <option value="">Select</option>
@@ -44,16 +53,7 @@
                     <div class="error" *ngIf="f.category.errors.required">Category is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-6">
-                <label>Amount:</label>
-                <input type="text" maxlength="10" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
-                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
-                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
-                </div>
-            </div>
-            <div class="col-6">
+            <div class="col-5">
                 <label>Proportion:</label>
                 <input type="text" mask="percent" suffix="%" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
