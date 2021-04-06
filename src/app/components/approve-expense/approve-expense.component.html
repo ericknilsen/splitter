@@ -4,7 +4,6 @@
             <tr>
                 <th scope="col">Description</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Payable</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -12,7 +11,6 @@
             <tr>
                 <td><a href="#" (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a></td>
                 <td>{{e.amount | currency}}</td>
-                <td>{{(e.amount * e.proportion)/100 | currency}}</td>
                 <td [formGroupName]="i">
                     <select formControlName="action" class="form-control-sm">
                         <option value="">Select</option>
