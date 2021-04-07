@@ -90,4 +90,14 @@ export abstract class Util {
         return offset.toString();
         }
     }
+
+    static getUsernameFromEmail(email: string) {
+        if (!email) {
+            return '';
+        }
+        if (email.indexOf('@') < 0) {
+            return email;
+        }
+        return email.split("@")[0];
+    }
  }

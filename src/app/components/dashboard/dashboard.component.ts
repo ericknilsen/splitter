@@ -90,5 +90,8 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  getUsernameFromEmail(email: string) {
+    return Util.getUsernameFromEmail(email);
+  }
 
 }

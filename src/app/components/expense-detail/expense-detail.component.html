@@ -40,22 +40,24 @@
 
         <div class="form-group row">
             <div class="col-12">
-                <label>Charged by: <i>{{expense.receiverUser}}</i></label>
+                <label>Payable by <i>{{getUsernameFromEmail(expense.receiverUser)}}</i>:
+                    <b>{{(expense.amount * (100-expense.proportion))/100 | currency}}</b>
+                </label>
             </div>
         </div>
 
         <div class="form-group row">
             <div class="col-12">
-                <label>Charged to: <i>{{expense.chargedUser}}</i></label>
+                <label>Payable by <i>{{getUsernameFromEmail(expense.chargedUser)}}</i>:
+                    <b>{{(expense.amount * expense.proportion)/100 | currency}}</b>
+                </label>
             </div>
         </div>
 
         <div class="form-group row">
+            <div class="col-6"></div>
             <div class="col-6">
-                <label>Payable: <b>{{(expense.amount * expense.proportion)/100 | currency}}</b></label>
-            </div>
-            <div class="col-6">
-                <label>Status: <b>{{expense.status}}</b></label>
+                <label class="float-right">Status: <b>{{expense.status}}</b></label>
             </div>
         </div>
 

@@ -85,4 +85,8 @@ export class ExpenseDetailComponent implements OnInit {
   setTimezoneOffset() {
     this.offset = Util.getTimezoneOffset();
   }
+
+  getUsernameFromEmail(email: string) {
+    return Util.getUsernameFromEmail(email);
+  }
 }
