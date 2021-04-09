@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddExpenseComponent } from './components/add-expense/add-expense.component';
-import { ApproveExpenseComponent } from './components/approve-expense/approve-expense.component';
+import { AddExpenseComponent } from './components/expense/add-expense/add-expense.component';
+import { ApproveExpenseComponent } from './components/expense/approve-expense/approve-expense.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ListExpensesComponent } from './components/list-expenses/list-expenses.component';
-import { PaymentComponent } from './components/payment/payment.component';
+import { ListExpensesComponent } from './components/expense/list-expenses/list-expenses.component';
+import { PaymentComponent } from './components/payment/add-payment/add-payment.component';
 import { ReportComponent } from './components/report/report.component';
 import { AuthGuard } from './security/auth.guard';
 import { LoginComponent } from './security/login/login.component';

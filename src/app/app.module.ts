@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxMaskModule } from 'ngx-mask'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddExpenseComponent } from './components/add-expense/add-expense.component';
+import { AddExpenseComponent } from './components/expense/add-expense/add-expense.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ListExpensesComponent } from './components/list-expenses/list-expenses.component';
-import { ApproveExpenseComponent } from './components/approve-expense/approve-expense.component';
+import { ListExpensesComponent } from './components/expense/list-expenses/list-expenses.component';
+import { ApproveExpenseComponent } from './components/expense/approve-expense/approve-expense.component';
 import { ReportComponent } from './components/report/report.component';
 import {
   FormsModule,
@@ -23,12 +23,12 @@ import { LoginComponent } from './security/login/login.component';
 import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
 import { ErrorInterceptor } from './security/error.interceptor';
 import { GOOGLE_OAUTH_CLIENT_ID } from './common/constants';
-import { PaymentComponent } from './components/payment/payment.component';
-import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
+import { PaymentComponent } from './components/payment/add-payment/add-payment.component';
+import { ExpenseDetailComponent } from './components/expense/expense-detail/expense-detail.component';
 import { PaymentsService } from './services/payments.service';
-import { ApprovePaymentComponent } from './components/approve-payment/approve-payment.component';
+import { ApprovePaymentComponent } from './components/payment/approve-payment/approve-payment.component';
 import { DatePipe } from '@angular/common';
-import { SearchExpensesComponent } from './components/search-expenses/search-expenses.component';
+import { SearchExpensesComponent } from './components/expense/search-expenses/search-expenses.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomDateParserFormatter } from './common/custom-date.formatter';
