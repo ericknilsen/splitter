@@ -9,7 +9,7 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { UserGroupService } from 'src/app/services/user-groups.service';
-import { STATUS_PENDING } from 'src/app/common/constants';
+import { STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from 'src/app/common/constants';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -88,5 +88,11 @@ export class ExpenseDetailComponent implements OnInit {
 
   getUsernameFromEmail(email: string) {
     return Util.getUsernameFromEmail(email);
+  }
+
+  getStatusClass(status: string) {
+    return status === STATUS_APPROVED? 'text-success':
+           status === STATUS_PENDING? 'text-warning':
+           status === STATUS_REJECTED? 'text-danger':'';
   }
 }
