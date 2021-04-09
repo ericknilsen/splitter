@@ -9,6 +9,7 @@ import { UserGroupService } from 'src/app/services/user-groups.service';
 import { Util } from 'src/app/common/util';
 import {PaymentsService } from 'src/app/services/payments.service';
 import { Payment } from 'src/app/models/payment.model';
+import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-payment',
@@ -25,6 +26,7 @@ export class PaymentComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private userGroupService: UserGroupService,
+    private ngbCalendar: NgbCalendar,
     private paymentsService: PaymentsService) {
     this.form = this.initForm();
   }
@@ -32,7 +34,7 @@ export class PaymentComponent implements OnInit {
   private initForm() {
     return this.fb.group({
       'amount': new FormControl('', Validators.required),
-      'date': new FormControl(Util.getCurrentDate(), Validators.required),
+      'date': new FormControl(this.ngbCalendar.getToday(), Validators.required),
       'paidUser': new FormControl('', Validators.required)
     });
   }

@@ -37,7 +37,7 @@ export class ExpenseDetailComponent implements OnInit {
 
   private initForm() {
     return this.fb.group({
-      'date': new FormControl(this.datePipe.transform(this.expense.date, 'MM/dd/yyyy', this.offset), Validators.required),
+      'date': new FormControl(this.initDate(), Validators.required),
       'amount': new FormControl(this.expense.amount, Validators.required),
       'proportion': new FormControl(this.expense.proportion, Validators.required),
       'category': new FormControl(this.expense.category, Validators.required)
@@ -49,6 +49,10 @@ export class ExpenseDetailComponent implements OnInit {
     this.form = this.initForm();
     this.initCurrentUser();
     this.initCategories();
+  }
+
+  private initDate() {
+    return Util.stringDateToNgbDate(this.expense.date, this.datePipe);
   }
 
   private initCategories() {
@@ -64,6 +68,7 @@ export class ExpenseDetailComponent implements OnInit {
   onSubmit(updatedExpense: Expense): void {
     this.expense = Object.assign(this.expense, updatedExpense);
     this.expense.status = STATUS_PENDING;
+    this.expense.date = Util.formatDate(this.form.value.date);
     this.expensesService.update([this.expense]).subscribe(resp => {
       this.isSubmited = true;
     })

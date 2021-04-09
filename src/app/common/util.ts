@@ -1,4 +1,5 @@
-import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { DatePipe } from "@angular/common";
+import { NgbDate, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { UserGroup } from "../models/user-group.model";
 import { ACTION_APPROVE, ACTION_REJECT, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from "./constants";
 
@@ -89,6 +90,13 @@ export abstract class Util {
         } else {
         return offset.toString();
         }
+    }
+
+    static stringDateToNgbDate(strDate: string, datePipe: DatePipe) {
+        let timezoneDate = datePipe.transform(strDate, 'MM/dd/yyyy', this.getTimezoneOffset())
+        let date = new Date(timezoneDate!);
+
+        return new NgbDate(date.getFullYear(), date.getMonth()+1, date.getDate());
     }
 
     static getUsernameFromEmail(email: string) {

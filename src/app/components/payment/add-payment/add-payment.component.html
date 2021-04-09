@@ -3,19 +3,26 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="section">New Payment</div>
         <div class="form-group row">
-            <div class="col-6">
+            <div class="col-7">
+                <label>Date:</label>
+                <div class="input-group">
+                    <input class="form-control" readonly type="text" formControlName="date" ngbDatepicker #date="ngbDatepicker">
+                    
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info material-icons" (click)="date.toggle()" type="button">
+                        calendar_today
+                      </button>
+                    </div>
+                </div>
+                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
+                    <div class="error" *ngIf="f.date.errors">Date is required</div>
+                </div>
+            </div>
+            <div class="col-5">
                 <label>Amount:</label>
                 <input type="text" maxlength="10" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
                 <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
                     <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
-                </div>
-            </div>
-            <div class="col-6">
-                <label>Date:</label>
-                <input type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" formControlName="date" class="form-control" />
-                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
-                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
-                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
                 </div>
             </div>
         </div>

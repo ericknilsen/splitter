@@ -2,16 +2,29 @@
     <div class="success" *ngIf="form.pristine && isSubmited">Expense successfully updated.</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <div class="form-group row">
-            <div class="col-6">
+            <div class="col-7">
                 <label>Date: <label *ngIf="!isEditable(expense)">{{expense.date | date: 'mediumDate': offset}}</label></label>
-                <input *ngIf="isEditable(expense)" type="text" mask="M0/d0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" formControlName="date" class="form-control" />
-                <div *ngIf="f.date.errors && (f.date.dirty || f.date.touched)">
-                    <div class="error" *ngIf="f.date.errors.required">Date is required</div>
-                    <div class="error" *ngIf="f.date.errors && !f.date.errors.required">Format: MM/DD/YYYY</div>
+                <div *ngIf="isEditable(expense)" class="input-group">
+                    <input class="form-control" readonly type="text" formControlName="date" ngbDatepicker #date="ngbDatepicker">
+                    
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info material-icons" (click)="date.toggle()" type="button">
+                        calendar_today
+                      </button>
+                    </div>
                 </div>
             </div>
-            <div class="col-6">
-                <label [ngClass]="!isEditable(expense)? 'float-right':''">Category: <label *ngIf="!isEditable(expense)">{{expense.category}}</label></label>
+            <div class="col-5">
+                <label [ngClass]="!isEditable(expense)? 'float-right':''">Amount: <label *ngIf="!isEditable(expense)">{{expense.amount | currency}}</label></label>
+                <input *ngIf="isEditable(expense)" type="text" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
+                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
+                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-7">
+                <label>Category: <label *ngIf="!isEditable(expense)">{{expense.category}}</label></label>
                 <select *ngIf="isEditable(expense)" formControlName="category" class="form-control" (change)="selectCategory(f.category.value)"> 
                     <option value="">Select</option>
                     <option *ngFor="let c of categories | keyvalue" [value]="c.key">{{c.key}}</option>
@@ -20,20 +33,11 @@
                     <div class="error" *ngIf="f.category.errors.required">Category is required</div>
                 </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-6">
-                <label>Proportion: <label *ngIf="!isEditable(expense)">{{expense.proportion}}%</label></label>
+            <div class="col-5">
+                <label [ngClass]="!isEditable(expense)? 'float-right':''">Proportion: <label *ngIf="!isEditable(expense)">{{expense.proportion}}%</label></label>
                 <input *ngIf="isEditable(expense)" type="text" mask="percent" suffix="%" formControlName="proportion" class="form-control" />
                 <div *ngIf="f.proportion.errors && (f.proportion.dirty || f.proportion.touched)">
                     <div class="error" *ngIf="f.proportion.errors.required">Proportion is required</div>
-                </div>
-            </div>
-            <div class="col-6">
-                <label [ngClass]="!isEditable(expense)? 'float-right':''">Amount: <label *ngIf="!isEditable(expense)">{{expense.amount | currency}}</label></label>
-                <input *ngIf="isEditable(expense)" type="text" mask="separator.2" thousandSeparator="," formControlName="amount" class="form-control" />
-                <div *ngIf="f.amount.errors && (f.amount.dirty || f.amount.touched)">
-                    <div class="error" *ngIf="f.amount.errors.required">Amount is required</div>
                 </div>
             </div>
         </div>
@@ -55,8 +59,7 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-6"></div>
-            <div class="col-6">
+            <div class="col-12">
                 <label class="float-right">Status: <b [ngClass]="getStatusClass(expense.status)">{{expense.status}}</b></label>
             </div>
         </div>
