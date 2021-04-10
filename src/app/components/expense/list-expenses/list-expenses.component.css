@@ -3,3 +3,8 @@
     margin:40px auto;
     font: normal 20px;
 }
+
+.icon-align {
+    display: inline-flex;
+    vertical-align: top;
+}

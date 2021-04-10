@@ -6,21 +6,37 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PAGE_SIZE } from 'src/app/common/constants';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 
 @Component({
   selector: 'app-list-expenses',
   templateUrl: './list-expenses.component.html',
-  styleUrls: ['./list-expenses.component.css']
+  styleUrls: ['./list-expenses.component.css'],
+  animations : [
+    trigger('animationShowHide', [
+      state('close', style({ height: '0px', overflow: 'hidden' })),
+      state('open', style({ height: '*',overflow: 'hidden'})),
+      transition('open <=> close', animate('900ms ease-in-out')),
+    ]),
+    trigger('animationRotate', [
+      state('close', style({ transform: 'rotate(0)' })),
+      state('open', style({ transform: 'rotate(90deg)' })),
+      transition('open <=> close', animate('900ms ease-in-out')),
+    ]),
+  ]
 })
 export class ListExpensesComponent implements OnInit {
   expenses: Expense[] = [];
   expensesSize: number = 0;
   isDisplayedList: boolean[] = [];
+  statesList: string[] = [];
   page = 1;
   pageSize = PAGE_SIZE;
   searchParams: any;
   user: any;
   offset: any;
+  sStatus = 'close';
 
   constructor(private expensesService: ExpensesService,
               private spinnerService: NgxSpinnerService,
@@ -38,10 +54,12 @@ export class ListExpensesComponent implements OnInit {
   private initDisplayedList() {
     for (let i = 0; i < this.expenses.length; ++i) {
       this.isDisplayedList[i] = false; 
+      this.statesList[i] = 'close';
     }
   }
 
   displayExpenseDetails(index: number) {
+    this.statesList[index] = this.statesList[index] === 'close' ? 'open' : 'close';
     this.isDisplayedList[index] = !this.isDisplayedList[index]; 
   }
 
