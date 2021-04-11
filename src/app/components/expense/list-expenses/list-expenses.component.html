@@ -14,7 +14,7 @@
     </thead>
     <tbody *ngFor="let e of expenses; let i = index">
       <tr>
-        <td class="text-nowrap">
+        <td>
           <i [@animationRotate]="statesList[i]" class="material-icons icon-align">chevron_right</i>
           <a href="#" title="Expense details" class="text-info"
             (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a>
