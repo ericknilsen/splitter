@@ -80,3 +80,12 @@ button.calendar, button.calendar:active {
 	background-size: 23px;
 	background-position: center;
 }
+
+.pagination
+{
+  display: flex; 
+  justify-content: center;
+  -webkit-justify-content: center;
+  flex-wrap : wrap;
+  -webkit-flex-wrap: wrap;
+}
