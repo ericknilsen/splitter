@@ -1,0 +1,14 @@
+.list-style{
+	padding:30px;
+    margin:40px auto;
+    font: normal 20px;
+}
+
+.icon-align {
+    display: inline-flex;
+    vertical-align: top;
+}
+
+.search {
+    margin-top: 20px;
+}

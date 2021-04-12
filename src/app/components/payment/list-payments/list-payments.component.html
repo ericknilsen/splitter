@@ -1,51 +1,52 @@
-<div>
+<div class="search">
     <app-search-expenses (searchChanges)="searchExpenses($event)"></app-search-expenses>
-  </div>
-  
-  <div class="table-responsive-sm">
+</div>
+
+<div class="table-responsive-sm">
     <table class="table table-striped list-style">
-      <thead>
-        <tr>
-          <th scope="col">Description</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Date</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let e of expenses; let i = index">
-        <tr>
-          <td>
-            <i [@animationRotate]="statesList[i]" class="material-icons icon-align">chevron_right</i>
-            <a href="#" title="Expense details" class="text-info"
-              (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a>
-          </td>
-          <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
-          <td *ngIf="!isDisplayedList[i]">{{e.date | date: 'mediumDate': offset}}</td>
-          <td colspan="2" *ngIf="isDisplayedList[i]"></td>
-          <td *ngIf="!isEditable(e)"></td>
-          <td *ngIf="isEditable(e)">
-            <a href="#" title="Delete expense" class="text-danger" (click)="$event.preventDefault();deleteExpense(e)">
-              <i class="material-icons">delete_outline</i>
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">
-            <div [@animationShowHide]="statesList[i]">
-              <app-expense-detail [expense]="e"></app-expense-detail>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let e of expenses; let i = index">
+            <tr>
+                <td>
+                    <i [@animationRotate]="statesList[i]" class="material-icons icon-align">chevron_right</i>
+                    <a href="#" title="Expense details" class="text-info"
+                        (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a>
+                </td>
+                <td *ngIf="!isDisplayedList[i]">{{e.amount | currency}}</td>
+                <td *ngIf="!isDisplayedList[i]">{{e.date | date: 'mediumDate': offset}}</td>
+                <td colspan="2" *ngIf="isDisplayedList[i]"></td>
+                <td *ngIf="!isEditable(e)"></td>
+                <td *ngIf="isEditable(e)">
+                    <a href="#" title="Delete expense" class="text-danger"
+                        (click)="$event.preventDefault();deleteExpense(e)">
+                        <i class="material-icons">delete_outline</i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div [@animationShowHide]="statesList[i]">
+                        <app-expense-detail [expense]="e"></app-expense-detail>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
-  </div>
-  <div *ngIf="expenses && expenses.length > 0">
-    <ngb-pagination (pageChange)="loadPage($event)" [(page)]="page" [pageSize]="pageSize" [collectionSize]="expensesSize"
-      [boundaryLinks]="true">
+</div>
+<div *ngIf="expenses && expenses.length > 0">
+    <ngb-pagination (pageChange)="loadPage($event)" [(page)]="page" [pageSize]="pageSize"
+        [collectionSize]="expensesSize" [boundaryLinks]="true">
     </ngb-pagination>
-  </div>
-  <div>
+</div>
+<div>
     <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">
-      <p style="color: white">Please Wait. </p>
+        <p style="color: white">Please Wait. </p>
     </ngx-spinner>
-  </div>
+</div>
