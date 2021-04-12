@@ -32,6 +32,8 @@ import { SearchExpensesComponent } from './components/expense/search-expenses/se
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomDateParserFormatter } from './common/custom-date.formatter';
+import { PaymentsManagerComponent } from './components/payment/payments-manager/payments-manager.component';
+import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { CustomDateParserFormatter } from './common/custom-date.formatter';
     PaymentComponent,
     ExpenseDetailComponent,
     ApprovePaymentComponent,
-    SearchExpensesComponent  
+    SearchExpensesComponent,
+    PaymentsManagerComponent,
+    ListPaymentsComponent  
   ],
   imports: [
     BrowserModule,

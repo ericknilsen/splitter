@@ -15,7 +15,7 @@
         <div class="form-group row">
             <div class="col">
                 <label>Description:</label>
-                <input type="text" maxlength="15" formControlName="description" class="form-control" />
+                <input type="text" maxlength="20" formControlName="description" class="form-control" />
                 <div *ngIf="f.description.errors && (f.description.dirty || f.description.touched)">
                     <div class="error" *ngIf="f.description.errors.required">Description is required</div>
                 </div>

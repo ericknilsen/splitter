@@ -21,17 +21,17 @@
     </div>
 
     <div class="card-container">
-      <div class="card" tabindex="0" routerLink="/dashboard/add-expenses" routerLinkActive="active">
+      <div [ngClass]="cardClassList[newExpense.tabIndex]" tabindex="0" #newExpense routerLink="/dashboard/add-expenses" routerLinkActive="active" (click)="setCardClass(newExpense.tabIndex)">
         <i class="material-icons text-info">add_circle</i>
         <span>New Expense</span>
       </div>
 
-      <div class="card" tabindex="1" routerLink="/dashboard/payment" routerLinkActive="active">
+      <div [ngClass]="cardClassList[payment.tabIndex]" tabindex="1" #payment routerLink="/dashboard/payments-manager" routerLinkActive="active" (click)="setCardClass(payment.tabIndex)">
         <i class="material-icons text-info">payment</i>
         <span>Payments</span>
       </div>
   
-      <div class="card" tabindex="2" routerLink="/dashboard/list-expenses" routerLinkActive="active">
+      <div [ngClass]="cardClassList[viewExpenses.tabIndex]" #viewExpenses tabindex="2" routerLink="/dashboard/list-expenses" routerLinkActive="active" (click)="setCardClass(viewExpenses.tabIndex)">
         <i class="material-icons text-info">format_list_bulleted</i>
         <span>View Expenses</span>
       </div>

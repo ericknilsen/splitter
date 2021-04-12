@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { UserGroupService } from 'src/app/services/user-groups.service';
@@ -11,7 +11,10 @@ import { PaymentsService } from 'src/app/services/payments.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('newExpense')
+  newExpenseTab!: ElementRef;
 
   expenses: Expense[] = [];
   user: any;
@@ -20,6 +23,8 @@ export class DashboardComponent implements OnInit {
   balance: number = 0;
   totalExpenses: number = 0;
   totalPayments: number = 0;
+
+  cardClassList = ['card card-none','card','card'];
 
   constructor(private userGroupService: UserGroupService,
               private paymentsService: PaymentsService,
@@ -31,6 +36,10 @@ export class DashboardComponent implements OnInit {
     this.subscribeToPaymentsChangeEmittedEvent();
     this.setChargedUser();
     this.setBalance();
+  }
+
+  ngAfterViewInit(): void {
+    this.newExpenseTab.nativeElement.click();
   }
 
   private subscribeToExpensesChangeEmittedEvent() {
@@ -92,6 +101,15 @@ export class DashboardComponent implements OnInit {
 
   getUsernameFromEmail(email: string) {
     return Util.getUsernameFromEmail(email);
+  }
+
+  setCardClass(index: number) {
+    this.cardClassList[index] = 'card card-none';
+    for(let i = 0; i < this.cardClassList.length; ++i) {
+      if (i !== index) {
+        this.cardClassList[i] = 'card';
+      }
+    }
   }
 
 }
