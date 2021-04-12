@@ -22,6 +22,18 @@ export class PaymentsService {
     return this.http.get<Payment[]>(`${ENDPOINT}/listUserPayments/${userEmail}`);
   }
 
+  search(searchParams: any): Observable<Payment[]> {
+    return this.http.post<Payment[]>(`${ENDPOINT}/searchPayments`, searchParams);
+  }
+
+  searchSize(searchParams: any): Observable<number> {
+    return this.http.post<number>(`${ENDPOINT}/searchPaymentsSize`, searchParams);
+  }
+
+  delete(payment: Payment): Observable<string> {
+    return this.http.delete<string>(`${ENDPOINT}/deletePayment/${payment._id}`);
+  }
+
   update(payments: Payment[]): Observable<string> {
     return this.http.put<string>(`${ENDPOINT}/updatePayments`, payments);
   }

@@ -51,6 +51,7 @@ export class PaymentComponent implements OnInit {
   onSubmit(payment: Payment): void {
     payment.status = 'Pending';
     payment.chargedUser = this.user.email;
+    payment.date = Util.formatDate(this.form.value.date);
     this.paymentsService.add(payment).subscribe(resp => {
       this.isSubmited = true;
     });

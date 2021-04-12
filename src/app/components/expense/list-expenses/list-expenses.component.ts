@@ -3,7 +3,7 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 import { Expense } from 'src/app/models/expense.model';
 import { Util } from 'src/app/common/util';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteExpenseModalConfirm } from 'src/app/common/delete-expense.modal';
+import { DeleteModalConfirm } from 'src/app/common/delete.modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PAGE_SIZE } from 'src/app/common/constants';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -64,7 +64,10 @@ export class ListExpensesComponent implements OnInit {
   }
 
   deleteExpense(expense: Expense) {
-    this.modalService.open(DeleteExpenseModalConfirm).closed.subscribe(() => {
+    const modalRef = this.modalService.open(DeleteModalConfirm);
+    modalRef.componentInstance.modalTitle = 'Delete Expense';
+    modalRef.componentInstance.modalBody = 'Expense '+expense.description;
+    modalRef.closed.subscribe(() => {
       this.spinnerService.show();
       this.expensesService.delete(expense).subscribe(() => {
         this.searchExpenses();
