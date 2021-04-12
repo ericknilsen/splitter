@@ -6,7 +6,7 @@
   <table class="table table-striped list-style">
     <thead>
       <tr>
-        <th scope="col">Description</th>
+        <th colspan="2" scope="col">Description</th>
         <th scope="col">Amount</th>
         <th scope="col">Date</th>
         <th scope="col"></th>
@@ -14,8 +14,8 @@
     </thead>
     <tbody *ngFor="let e of expenses; let i = index">
       <tr>
-        <td>
-          <i [@animationRotate]="statesList[i]" class="material-icons icon-align">chevron_right</i>
+        <td class="icon"><i [@animationRotate]="statesList[i]" class="material-icons icon-align">chevron_right</i></td>
+        <td class="description">
           <a href="#" title="Expense details" class="text-info"
             (click)="$event.preventDefault();displayExpenseDetails(i)">{{e.description}}</a>
         </td>
@@ -30,7 +30,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <div [@animationShowHide]="statesList[i]">
             <app-expense-detail [expense]="e"></app-expense-detail>
           </div>
