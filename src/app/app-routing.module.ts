@@ -17,6 +17,7 @@ const routes: Routes = [
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],
     children: [
+      { path: 'expenses-manager', pathMatch: 'full', redirectTo: 'expenses-manager/add-expense' },
       {
         path: 'expenses-manager', component: ExpensesManagerComponent,
         children: [{ path: 'add-expense', component: AddExpenseComponent },
