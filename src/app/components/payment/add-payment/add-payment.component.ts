@@ -16,7 +16,7 @@ import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './add-payment.component.html',
   styleUrls: ['./add-payment.component.css']
 })
-export class PaymentComponent implements OnInit {
+export class AddPaymentComponent implements OnInit {
   form: FormGroup;
   isSubmited: boolean = false;
   

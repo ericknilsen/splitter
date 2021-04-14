@@ -23,7 +23,7 @@ import { LoginComponent } from './security/login/login.component';
 import { LoginSocialUserComponent } from './security/login-social-user/login-social-user.component';
 import { ErrorInterceptor } from './security/error.interceptor';
 import { GOOGLE_OAUTH_CLIENT_ID } from './common/constants';
-import { PaymentComponent } from './components/payment/add-payment/add-payment.component';
+import { AddPaymentComponent } from './components/payment/add-payment/add-payment.component';
 import { ExpenseDetailComponent } from './components/expense/expense-detail/expense-detail.component';
 import { PaymentsService } from './services/payments.service';
 import { ApprovePaymentComponent } from './components/payment/approve-payment/approve-payment.component';
@@ -34,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomDateParserFormatter } from './common/custom-date.formatter';
 import { PaymentsManagerComponent } from './components/payment/payments-manager/payments-manager.component';
 import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
+import { ExpensesManagerComponent } from './components/expense/expenses-manager/expenses-manager.component';
 
 @NgModule({
   declarations: [
@@ -45,12 +46,13 @@ import { ListPaymentsComponent } from './components/payment/list-payments/list-p
     ReportComponent,
     LoginComponent,
     LoginSocialUserComponent,
-    PaymentComponent,
+    AddPaymentComponent,
     ExpenseDetailComponent,
     ApprovePaymentComponent,
     SearchExpensesComponent,
     PaymentsManagerComponent,
-    ListPaymentsComponent  
+    ListPaymentsComponent,
+    ExpensesManagerComponent  
   ],
   imports: [
     BrowserModule,

@@ -13,8 +13,8 @@ import { PaymentsService } from 'src/app/services/payments.service';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('newExpense')
-  newExpenseTab!: ElementRef;
+  @ViewChild('expensesTab')
+  expensesTab!: ElementRef;
 
   expenses: Expense[] = [];
   user: any;
@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.newExpenseTab.nativeElement.click();
+    this.expensesTab.nativeElement.click();
   }
 
   private subscribeToExpensesChangeEmittedEvent() {
