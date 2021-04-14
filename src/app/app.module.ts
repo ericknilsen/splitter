@@ -35,6 +35,7 @@ import { CustomDateParserFormatter } from './common/custom-date.formatter';
 import { PaymentsManagerComponent } from './components/payment/payments-manager/payments-manager.component';
 import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
 import { ExpensesManagerComponent } from './components/expense/expenses-manager/expenses-manager.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ExpensesManagerComponent } from './components/expense/expenses-manager/
     NgbModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
+    ChartsModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

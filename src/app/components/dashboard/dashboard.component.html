@@ -33,12 +33,12 @@
         <span>Payments</span>
       </div>
       
-      <!-- 
-      <div class="card" tabindex="3" routerLink="/dashboard/report-expenses" routerLinkActive="active">
+    
+      <div [ngClass]="cardClassList[reportsTab.tabIndex]" tabindex="2" #reportsTab routerLink="/dashboard/report-expenses" routerLinkActive="active" (click)="setCardClass(reportsTab.tabIndex)">
         <i class="material-icons text-info">bar_chart</i>
         <span>Reports</span>
       </div>
-      -->
+    
     </div>
   
     <router-outlet></router-outlet>
