@@ -36,6 +36,7 @@ import { PaymentsManagerComponent } from './components/payment/payments-manager/
 import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
 import { ExpensesManagerComponent } from './components/expense/expenses-manager/expenses-manager.component';
 import { ChartsModule } from 'ng2-charts';
+import { SearchReportComponent } from './components/report/search-report/search-report.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ChartsModule } from 'ng2-charts';
     SearchExpensesComponent,
     PaymentsManagerComponent,
     ListPaymentsComponent,
-    ExpensesManagerComponent  
+    ExpensesManagerComponent,
+    SearchReportComponent  
   ],
   imports: [
     BrowserModule,
