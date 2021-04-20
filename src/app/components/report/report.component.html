@@ -5,7 +5,7 @@
             <app-search-report (searchChanges)="searchReport($event)"></app-search-report>
         </div>
     </div>
-    <div class="row chart">
+    <div class="row chart" *ngIf="doughnutChartLabels.length > 0">
         <div class="col-12">
             <canvas baseChart 
                 height="300"
@@ -18,7 +18,7 @@
             </canvas>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="lineChartLabels.length > 0">
         <div class="col-12">
             <canvas baseChart
                 height="300"
