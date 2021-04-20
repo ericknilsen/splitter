@@ -38,7 +38,6 @@ export class SearchReportComponent implements OnInit {
   ngOnInit(): void {
     this.initMonths();
     this.initCurrentUser();
-    this.listUserGroupOfUser();
     this.selectParams();
   }
 
@@ -53,12 +52,13 @@ export class SearchReportComponent implements OnInit {
   }
   
   private emitSearchChanges() {
-    this.searchChanges.emit(this.form.value);
+    this.listUserGroupOfUser();
   }
 
   private listUserGroupOfUser() {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.users = userGroup.users;
+      this.searchChanges.emit({searchParams: this.form.value, users: userGroup.users});
     })
   }
 

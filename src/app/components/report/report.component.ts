@@ -5,8 +5,6 @@ import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
-import { UserGroupService } from 'src/app/services/user-groups.service';
-
 
 @Component({
   selector: 'app-report',
@@ -44,22 +42,15 @@ export class ReportComponent implements OnInit {
   users: string[] = [];
   expenses: Expense[] = [];
 
-  constructor(private expensesService: ExpensesService,
-              private userGroupService: UserGroupService) { }
+  constructor(private expensesService: ExpensesService) { }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
-    this.listUserGroupOfUser();
   }
 
-  private listUserGroupOfUser() {
-    this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
-      this.users = userGroup.users;
-    })
-  }
-
-  searchReport(searchParams: any) {
-    this.listExpenses(searchParams)
+  searchReport(data: any) {
+    this.users = data.users;
+    this.listExpenses(data.searchParams)
   }
 
   private listExpenses(searchParams?: any) {
@@ -70,7 +61,7 @@ export class ReportComponent implements OnInit {
   }
 
   private applyFilters(searchParams: any) {
-    //this.statusFilter();
+    this.statusFilter();
     this.monthFilter(searchParams.month);
     
     this.buildExpensesChart(searchParams.user);
