@@ -30,7 +30,7 @@ export class SearchReportComponent implements OnInit {
   private initForm() {
     return this.fb.group({
       'month': new FormControl(''),
-      'compareWith': new FormControl(''),
+      'compareMonth': new FormControl(''),
       'user': new FormControl('')
     });
   }

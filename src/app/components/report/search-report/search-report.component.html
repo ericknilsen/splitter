@@ -8,7 +8,7 @@
                     <option *ngFor="let u of users" [value]="u">{{u}}</option>
                 </select>
             </div>
-        </div>      
+        </div> 
         <div class="form-group row">
             <div class="col-6">
                 <label>Month</label>
@@ -18,8 +18,8 @@
                 </select>
             </div>
             <div class="col-6">
-                <label>Compare with</label>
-                <select formControlName="compareWith" class="form-control" (change)="selectParams()"> 
+                <label>Compare Month</label>
+                <select formControlName="compareMonth" class="form-control" (change)="selectParams()"> 
                     <option value="">Select</option>
                     <option *ngFor="let m of monthsList" [value]="m">{{months.get(m)}}</option>
                 </select>

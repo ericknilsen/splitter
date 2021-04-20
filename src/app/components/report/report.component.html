@@ -5,7 +5,7 @@
             <app-search-report (searchChanges)="searchReport($event)"></app-search-report>
         </div>
     </div>
-    <div class="row">
+    <div class="row chart">
         <div class="col-12">
             <canvas baseChart 
                 height="300"
@@ -18,5 +18,18 @@
             </canvas>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <canvas baseChart
+                height="300"
+                width="300"
+                [chartType]="lineChartType"
+                [datasets]="lineChartDatasets"
+                [labels]="lineChartLabels"
+                [options]="chartOptions"
+                [colors]="lineChartColors"
+                [legend]="true">
+            </canvas>
+        </div>
+    </div>
 </div>
-

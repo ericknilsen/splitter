@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
-import { MultiDataSet, Label } from 'ng2-charts';
+import { Label } from 'ng2-charts';
 import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
+import { UserGroupService } from 'src/app/services/user-groups.service';
 
 
 @Component({
@@ -15,35 +16,115 @@ import { ExpensesService } from 'src/app/services/expenses.service';
 export class ReportComponent implements OnInit {
 
   doughnutChartLabels: Label[] = [];
-  doughnutChartData: MultiDataSet = [
+  doughnutChartData: Array<any> = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ];
   doughnutChartType: ChartType = 'doughnut';
 
+  public lineChartType: ChartType = 'line';
+  public lineChartDatasets: Array<any> = [
+    { data: [], label: '' },
+    { data: [], label: '' }
+  ];
+  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+  public lineChartColors: Array<any> = [
+    {
+      backgroundColor: 'rgba(105, 0, 132, .2)',
+      borderColor: 'rgba(200, 99, 132, .7)',
+      borderWidth: 2,
+    },
+    {
+      backgroundColor: 'rgba(0, 137, 132, .2)',
+      borderColor: 'rgba(0, 10, 130, .7)',
+      borderWidth: 2,
+    }
+  ];
+
   user: any;
+  users: string[] = [];
   expenses: Expense[] = [];
 
-  constructor(private expensesService: ExpensesService) { }
+  constructor(private expensesService: ExpensesService,
+              private userGroupService: UserGroupService) { }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.listUserGroupOfUser();
+  }
+
+  private listUserGroupOfUser() {
+    this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
+      this.users = userGroup.users;
+    })
+  }
+
+  searchReport(searchParams: any) {
+    this.listExpenses(searchParams)
   }
 
   private listExpenses(searchParams?: any) {
-    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
-      this.expenses = expenses.filter(e => e.status === STATUS_APPROVED)
-      if (searchParams && searchParams.month) {
-        this.expenses = this.expenses.filter(e => {
-          const month = e.date.split('-')[1];
-          return month === searchParams.month;
-        })
-      }
-      if (searchParams && searchParams.user) {
-        this.buildUserExpensesByCategoryChart(searchParams.user)
-      } else {
-        this.buildTotalExpensesByCategoryChart();
-      }
-    });
+    if (this.expenses.length === 0) {
+      this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+        this.expenses = expenses;
+        this.applyFilters(searchParams);
+      });
+    } else {
+      this.applyFilters(searchParams)
+    }
+  }
+
+  private applyFilters(searchParams: any) {
+    this.expenses = this.expenses.filter(e => e.status === STATUS_APPROVED);
+    if (searchParams.month) {
+      this.expenses = this.monthFilter(searchParams.month);
+      this.buildExpensesChart(this.expenseMapping);
+      this.buildExpensesCompareUsersChart(this.userExpenseMapping);
+    }
+    if (searchParams.user) {
+      this.buildExpensesChart(this.userExpenseMapping, searchParams.user);
+    }
+  }
+
+  private monthFilter(month: string) {
+    return this.expenses.filter(e => {
+      const mm = e.date.split('-')[1];
+      return mm === month;
+    })
+  }
+
+  private buildExpensesCompareUsersChart(mapping: any) {
+    
+    let aggregatedExpensesList:any = [];
+
+    for (let i = 0; i < this.users.length; ++i) {
+      let aggregatedExpenses = this.expenses
+        .map(e => mapping(e, this.users[i]))
+        .reduce(this.aggregateExpensesByCategory, [])
+      aggregatedExpensesList.push(aggregatedExpenses)  
+    }
+    
+    this.updateLineChartInfo(aggregatedExpensesList);
+  }
+
+  private buildExpensesChart(mapping: any, user?: string) {
+    let aggregatedExpenses = this.expenses
+      .map(e => mapping(e, user))
+      .reduce(this.aggregateExpensesByCategory, [])
+
+    this.updateDoughnutChartInfo(aggregatedExpenses);
+  }
+
+  private userExpenseMapping(e: Expense, user: string) {
+    if (e.chargedUser === user) {
+      return { category: e.category, amount: (e.proportion*e.amount)/100 }
+    } else {
+      return { category: e.category, amount: ((100-e.proportion)*e.amount)/100 }
+    } 
+  }
+
+  private expenseMapping(e: Expense) {
+    return { category: e.category, amount: 1*e.amount }   
   }
 
   private aggregateExpensesByCategory = (result: any[], current: any) => {
@@ -56,33 +137,18 @@ export class ReportComponent implements OnInit {
     return result;
   }
 
-  private updateDoughnutChartInfo(aggregatedExpensesByCategory: any[]) {
-    this.doughnutChartLabels = aggregatedExpensesByCategory.map(a => a.category);
-    this.doughnutChartData = [aggregatedExpensesByCategory.map(a => a.amount.toFixed(2))];
+  private updateDoughnutChartInfo(aggregatedExpenses: any[]) {
+    this.doughnutChartLabels = aggregatedExpenses.map(e => e.category);
+    this.doughnutChartData = [aggregatedExpenses.map(e => e.amount.toFixed(2))];
   }
 
-  buildUserExpensesByCategoryChart(user: string) {
-    let aggregatedExpensesByCategory = this.expenses
-      .map(e => {
-        if (e.chargedUser === user) {
-          return { category: e.category, amount: (e.proportion*e.amount)/100 }
-        } else {
-          return { category: e.category, amount: ((100-e.proportion)*e.amount)/100 }
-        } 
-      })
-      .reduce(this.aggregateExpensesByCategory, [])
-
-    this.updateDoughnutChartInfo(aggregatedExpensesByCategory);
-  }
-
-  buildTotalExpensesByCategoryChart() {
-    let aggregatedExpensesByCategory = this.expenses
-      .map(e => {
-        return { category: e.category, amount: 1*e.amount }
-      })
-      .reduce(this.aggregateExpensesByCategory, [])
-
-    this.updateDoughnutChartInfo(aggregatedExpensesByCategory);
+  private updateLineChartInfo(aggregatedExpensesList: any[]) {
+    let aggregatedExpenses: any[] = aggregatedExpensesList[0];
+    this.lineChartLabels = aggregatedExpenses.map(e => e.category);
+    this.lineChartDatasets = aggregatedExpensesList.map((aggregatedExpense, index) => {
+      let amounts = aggregatedExpense.map((a: { amount: any; }) => a.amount.toFixed(2));
+      return {data: amounts, label: this.users[index]}
+    });
   }
 
   public chartOptions: any = {
@@ -100,10 +166,5 @@ export class ReportComponent implements OnInit {
       },
     }
   };
-
-  searchReport(searchParams: any) {
-    this.listExpenses(searchParams)
-    console.log(searchParams)
-  }
 
 }
