@@ -5,31 +5,14 @@
             <app-search-report (searchChanges)="searchReport($event)"></app-search-report>
         </div>
     </div>
-    <div class="row chart" *ngIf="doughnutChartLabels.length > 0">
+    <div class="row chart">
         <div class="col-12">
-            <canvas baseChart 
-                height="300"
-                width="300"
-                [legend]="true"
-                [data]="doughnutChartData"
-                [options]="chartOptions"
-                [labels]="doughnutChartLabels"
-                [chartType]="doughnutChartType">
-            </canvas>
+            <app-category-chart #categoryChart></app-category-chart>
         </div>
     </div>
-    <div class="row" *ngIf="lineChartLabels.length > 0">
+    <div class="row">
         <div class="col-12">
-            <canvas baseChart
-                height="300"
-                width="300"
-                [chartType]="lineChartType"
-                [datasets]="lineChartDatasets"
-                [labels]="lineChartLabels"
-                [options]="chartOptions"
-                [colors]="lineChartColors"
-                [legend]="true">
-            </canvas>
+            <app-compare-user-expenses-chart #compareUserExpensesChart></app-compare-user-expenses-chart>
         </div>
     </div>
 </div>
