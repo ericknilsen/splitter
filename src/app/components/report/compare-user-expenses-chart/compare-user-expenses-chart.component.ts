@@ -30,6 +30,8 @@ export class CompareUserExpensesChartComponent extends BaseChart implements OnIn
     }
   ];
 
+  totalExpensesByUserMap: Map<string,string> = new Map<string,string>();
+
   constructor() {
     super();
   }
@@ -41,6 +43,7 @@ export class CompareUserExpensesChartComponent extends BaseChart implements OnIn
   searchReport(data: any, expenses: Expense[]) {
     this.users = data.users;
     this.expenses = expenses;
+    this.setTotalExpensesByUser();
     this.applyFilters(data.searchParams);
     this.buildChart();
   }    
@@ -64,9 +67,19 @@ export class CompareUserExpensesChartComponent extends BaseChart implements OnIn
       this.chartLabels = aggregatedExpenses.map(e => e.category);
       this.chartDatasets = aggregatedExpensesList.map((aggregatedExpense, index) => {
         let amounts = aggregatedExpense.map((a: { amount: any; }) => a.amount.toFixed(2));
-        return {data: amounts, label: this.users[index]}
+        return {data: amounts, label: `${Util.getUsernameFromEmail(this.users[index])} (${this.totalExpensesByUserMap.get(this.users[index])})`}
       });
     } 
+  }
+
+  private setTotalExpensesByUser() {
+    for (let i = 0; i < this.users.length; ++i) {
+      let total = this.expenses
+        .map(e => this.userExpenseMapping(e, this.users[i]))
+        .map(a => a.amount)
+        .reduce((previous, current) => previous+current, 0);
+      this.totalExpensesByUserMap.set(this.users[i], `$${total.toFixed(2)}`);  
+    }
   }
 
 }
