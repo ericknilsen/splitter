@@ -3,6 +3,7 @@ import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { CategoryChartComponent } from './category-chart/category-chart.component';
+import { CompareExpensesChartComponent } from './compare-expenses-chart/compare-expenses-chart.component';
 import { CompareUserExpensesChartComponent } from './compare-user-expenses-chart/compare-user-expenses-chart.component';
 
 @Component({
@@ -17,9 +18,15 @@ export class ReportComponent implements OnInit {
 
   @ViewChild('compareUserExpensesChart')
   compareUserExpensesChart!: CompareUserExpensesChartComponent;
+  
+  @ViewChild('compareExpensesChart')
+  compareExpensesChart!: CompareExpensesChartComponent;
 
+  selectedChart: any;
+  
   user: any;
   expenses: Expense[] = [];
+  compareMonth!: string;
 
   constructor(private expensesService: ExpensesService) { }
 
@@ -28,13 +35,15 @@ export class ReportComponent implements OnInit {
   }
 
   searchReport(data: any) {
-    this.listExpenses(data)
+    this.compareMonth = data.searchParams.compareMonth;
+    this.listExpenses(data);
   }
 
   private listExpenses(data: any) {
     this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
       this.expenses = expenses;
-      this.categoryChart.searchReport(data, expenses);
+      this.selectedChart = this.compareMonth? this.compareExpensesChart: this.categoryChart;
+      this.selectedChart.searchReport(data, expenses);
       this.compareUserExpensesChart.searchReport(data, expenses);
     });
   }

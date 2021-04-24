@@ -6,8 +6,11 @@
         </div>
     </div>
     <div class="row chart">
-        <div class="col-12">
+        <div *ngIf="!compareMonth" class="col-12">
             <app-category-chart #categoryChart></app-category-chart>
+        </div>
+        <div *ngIf="compareMonth" class="col-12">
+            <app-compare-expenses-chart #compareExpensesChart></app-compare-expenses-chart>
         </div>
     </div>
     <div class="row">

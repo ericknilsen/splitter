@@ -1,4 +1,5 @@
 import { STATUS_APPROVED } from "src/app/common/constants";
+import { Util } from "src/app/common/util";
 import { Expense } from "src/app/models/expense.model";
 
 export class BaseChart {
@@ -7,9 +8,11 @@ export class BaseChart {
   users: string[] = [];
   expenses: Expense[] = [];
 
-  protected applyFilters(searchParams: any) {
+  protected applyFilters(searchParams?: any) {
     this.statusFilter();
-    this.monthFilter(searchParams.month);
+    if (searchParams) {
+      this.monthFilter(searchParams.month);
+    }
   }
 
   protected statusFilter() {
@@ -19,7 +22,7 @@ export class BaseChart {
   protected monthFilter(month: string) {
     if (month) {
       this.expenses = this.expenses.filter(e => {
-        const mm = e.date.split('-')[1];
+        const mm = Util.getMonthFromStringDate(e.date);
         return mm === month;
       })
     }
@@ -31,7 +34,7 @@ export class BaseChart {
     } else if (e.receiverUser === user) {
       return { category: e.category, amount: ((100-e.proportion)*e.amount)/100 }
     } else {
-      return  { category: e.category, amount: 1*e.amount } 
+      return { category: e.category, amount: 1*e.amount } 
     }
   }
 
@@ -43,6 +46,16 @@ export class BaseChart {
       found[0].amount = parseFloat(found[0].amount) + parseFloat(current.amount);
     }
     return result;
+  }
+
+  protected compareExpensesByCategory(e1: Expense, e2: Expense ) {
+    if (e1.category < e2.category){
+      return -1;
+    }
+    if (e1.category > e2.category){
+      return 1;
+    }
+    return 0;
   }
 
   chartOptions: any = {

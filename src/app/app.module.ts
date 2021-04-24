@@ -39,6 +39,7 @@ import { ChartsModule } from 'ng2-charts';
 import { SearchReportComponent } from './components/report/search-report/search-report.component';
 import { CategoryChartComponent } from './components/report/category-chart/category-chart.component';
 import { CompareUserExpensesChartComponent } from './components/report/compare-user-expenses-chart/compare-user-expenses-chart.component';
+import { CompareExpensesChartComponent } from './components/report/compare-expenses-chart/compare-expenses-chart.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { CompareUserExpensesChartComponent } from './components/report/compare-u
     ExpensesManagerComponent,
     SearchReportComponent,
     CategoryChartComponent,
-    CompareUserExpensesChartComponent  
+    CompareUserExpensesChartComponent,
+    CompareExpensesChartComponent  
   ],
   imports: [
     BrowserModule,

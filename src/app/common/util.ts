@@ -82,6 +82,10 @@ export abstract class Util {
         return mm;
     }
 
+    static getMonthFromStringDate(date: string) {
+        return date.split('-')[1];
+    }
+
     static getTimezoneOffset() {
         const offset = new Date().getTimezoneOffset();
     
