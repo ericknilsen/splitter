@@ -33,20 +33,23 @@ export class CompareExpensesChartComponent extends BaseChart implements OnInit {
     }
   ];
 
-  months: string[] = []
+  months: string[] = [];
+
+  totalExpensesByMonthMap: Map<string,string> = new Map<string,string>();
+
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.user = Util.getCurrentUser();
   }
 
   searchReport(data: any, expenses: Expense[]) {
     this.months = [data.searchParams.month, data.searchParams.compareMonth];
     this.expenses = expenses;
     this.applyFilters();
+    this.setTotalExpensesByMonth(data.searchParams.user);
     this.buildChart(data.searchParams.user);
   }
 
@@ -96,8 +99,19 @@ export class CompareExpensesChartComponent extends BaseChart implements OnInit {
       this.chartLabels = aggregatedExpenses.map(e => e.category);
       this.chartDatasets = aggregatedExpensesList.map((aggregatedExpense, index) => {
         let amounts = aggregatedExpense.map((a: { amount: any; }) => a.amount.toFixed(2));
-        return {data: amounts, label: this.months[index]}
+        return {data: amounts, label: `${Util.getMonths().get(this.months[index])} (${this.totalExpensesByMonthMap.get(this.months[index])})`};
       });
     } 
+  }
+
+  private setTotalExpensesByMonth(user: string) {
+    for (let i = 0; i < this.months.length; ++i) {
+      let total = this.expenses
+        .filter(e => Util.getMonthFromStringDate(e.date) === this.months[i])
+        .map(e => this.userExpenseMapping(e, user))
+        .map(a => a.amount)
+        .reduce((previous, current) => previous+current, 0);
+      this.totalExpensesByMonthMap.set(this.months[i], `$${total.toFixed(2)}`);  
+    }
   }
 }
