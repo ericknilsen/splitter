@@ -3,6 +3,7 @@ import { ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
+import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
 @Component({
@@ -21,15 +22,28 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
   percentageExpensesByCategoryMap: Map<string,string> = new Map<string,string>();
   totalAmount: string = '';
 
-  constructor() {
+  constructor(private expensesService: ExpensesService) {
     super();
   }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.setChartSearchParams();
+  }
+
+  private setChartSearchParams() {
+    this.chartSearchParamsMap.set('user', true);
+    this.chartSearchParamsMap.set('month', true);
+  }
+
+  search(data: any) {
+    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+      this.expenses = expenses;
+      this.build(data, expenses);
+    });
   }
     
-  searchReport(data: any, expenses: Expense[]) {
+  build(data: any, expenses: Expense[]) {
     this.users = data.users;
     this.expenses = expenses;
     this.applyFilters(data.searchParams);

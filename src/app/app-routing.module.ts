@@ -5,12 +5,15 @@ import { ApproveExpenseComponent } from './components/expense/approve-expense/ap
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ListExpensesComponent } from './components/expense/list-expenses/list-expenses.component';
 import { AddPaymentComponent } from './components/payment/add-payment/add-payment.component';
-import { ReportComponent } from './components/report/report.component';
 import { AuthGuard } from './security/auth.guard';
 import { LoginComponent } from './security/login/login.component';
 import { PaymentsManagerComponent } from './components/payment/payments-manager/payments-manager.component';
 import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
 import { ExpensesManagerComponent } from './components/expense/expenses-manager/expenses-manager.component';
+import { ChartsManagerComponent } from './components/chart/charts-manager/charts-manager.component';
+import { CategoryChartComponent } from './components/chart/category-chart/category-chart.component';
+import { UsersChartComponent } from './components/chart/users-chart/users-chart.component';
+import { TimeChartComponent } from './components/chart/time-chart/time-chart.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -21,15 +24,20 @@ const routes: Routes = [
       {
         path: 'expenses-manager', component: ExpensesManagerComponent,
         children: [{ path: 'add-expense', component: AddExpenseComponent },
-                   { path: 'list-expenses', component: ListExpensesComponent }],
+                   { path: 'list-expenses', component: ListExpensesComponent }]
       },
       {
         path: 'payments-manager', component: PaymentsManagerComponent,
         children: [{ path: 'add-payment', component: AddPaymentComponent },
-                   { path: 'list-payments', component: ListPaymentsComponent }],
+                   { path: 'list-payments', component: ListPaymentsComponent }]
       },
-      { path: 'approve-expenses', component: ApproveExpenseComponent },
-      { path: 'report-expenses', component: ReportComponent }
+      {
+        path: 'charts-manager', component: ChartsManagerComponent,
+        children: [{ path: 'category-chart', component: CategoryChartComponent },
+                   { path: 'users-chart', component: UsersChartComponent },
+                   { path: 'time-chart', component: TimeChartComponent }]
+      },
+      { path: 'approve-expenses', component: ApproveExpenseComponent }
     ]
   },
   { path: 'login', component: LoginComponent }

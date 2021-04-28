@@ -7,7 +7,6 @@ import { AddExpenseComponent } from './components/expense/add-expense/add-expens
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ListExpensesComponent } from './components/expense/list-expenses/list-expenses.component';
 import { ApproveExpenseComponent } from './components/expense/approve-expense/approve-expense.component';
-import { ReportComponent } from './components/report/report.component';
 import {
   FormsModule,
   ReactiveFormsModule
@@ -36,10 +35,11 @@ import { PaymentsManagerComponent } from './components/payment/payments-manager/
 import { ListPaymentsComponent } from './components/payment/list-payments/list-payments.component';
 import { ExpensesManagerComponent } from './components/expense/expenses-manager/expenses-manager.component';
 import { ChartsModule } from 'ng2-charts';
-import { SearchReportComponent } from './components/report/search-report/search-report.component';
-import { CategoryChartComponent } from './components/report/category-chart/category-chart.component';
-import { CompareUserExpensesChartComponent } from './components/report/compare-user-expenses-chart/compare-user-expenses-chart.component';
-import { CompareExpensesChartComponent } from './components/report/compare-expenses-chart/compare-expenses-chart.component';
+import { ChartsSearchComponent } from './components/chart/charts-search/charts-search.component';
+import { CategoryChartComponent } from './components/chart/category-chart/category-chart.component';
+import { UsersChartComponent } from './components/chart/users-chart/users-chart.component';
+import { TimeChartComponent } from './components/chart/time-chart/time-chart.component';
+import { ChartsManagerComponent } from './components/chart/charts-manager/charts-manager.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,6 @@ import { CompareExpensesChartComponent } from './components/report/compare-expen
     DashboardComponent,
     ListExpensesComponent,
     ApproveExpenseComponent,
-    ReportComponent,
     LoginComponent,
     LoginSocialUserComponent,
     AddPaymentComponent,
@@ -58,10 +57,11 @@ import { CompareExpensesChartComponent } from './components/report/compare-expen
     PaymentsManagerComponent,
     ListPaymentsComponent,
     ExpensesManagerComponent,
-    SearchReportComponent,
+    ChartsSearchComponent,
     CategoryChartComponent,
-    CompareUserExpensesChartComponent,
-    CompareExpensesChartComponent  
+    UsersChartComponent,
+    TimeChartComponent,
+    ChartsManagerComponent  
   ],
   imports: [
     BrowserModule,

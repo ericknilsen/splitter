@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,11 +7,14 @@ import {
 import { Util } from 'src/app/common/util';
 import { UserGroupService } from 'src/app/services/user-groups.service';
 @Component({
-  selector: 'app-search-report',
-  templateUrl: './search-report.component.html',
-  styleUrls: ['./search-report.component.css']
+  selector: 'app-charts-search',
+  templateUrl: './charts-search.component.html',
+  styleUrls: ['./charts-search.component.css']
 })
-export class SearchReportComponent implements OnInit {
+export class ChartsSearchComponent implements OnInit {
+
+  @Input()
+  displayParamsMap!: Map<string, boolean>;
 
   @Output()
   searchChanges: EventEmitter<any> = new EventEmitter();

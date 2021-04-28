@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchReportComponent } from './search-report.component';
+import { UsersChartComponent } from './users-chart.component';
 
-describe('SearchReportComponent', () => {
-  let component: SearchReportComponent;
-  let fixture: ComponentFixture<SearchReportComponent>;
+describe('UsersChartComponent', () => {
+  let component: UsersChartComponent;
+  let fixture: ComponentFixture<UsersChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchReportComponent ]
+      declarations: [ UsersChartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchReportComponent);
+    fixture = TestBed.createComponent(UsersChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

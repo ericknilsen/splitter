@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
+import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
 @Component({
-  selector: 'app-compare-expenses-chart',
-  templateUrl: './compare-expenses-chart.component.html',
-  styleUrls: ['./compare-expenses-chart.component.css']
+  selector: 'app-time-chart',
+  templateUrl: './time-chart.component.html',
+  styleUrls: ['./time-chart.component.css']
 })
-export class CompareExpensesChartComponent extends BaseChart implements OnInit {
+export class TimeChartComponent extends BaseChart implements OnInit {
 
   public chartType: ChartType = 'radar';
 
@@ -37,21 +38,38 @@ export class CompareExpensesChartComponent extends BaseChart implements OnInit {
 
   totalExpensesByMonthMap: Map<string,string> = new Map<string,string>();
 
-
-  constructor() {
+  constructor(private expensesService: ExpensesService) {
     super();
   }
 
   ngOnInit(): void {
+    this.user = Util.getCurrentUser();
+    this.setChartSearchParams();
   }
 
-  searchReport(data: any, expenses: Expense[]) {
-    this.months = [data.searchParams.month, data.searchParams.compareMonth];
+  private setChartSearchParams() {
+    this.chartSearchParamsMap.set('user', true);
+    this.chartSearchParamsMap.set('month', true);
+    this.chartSearchParamsMap.set('compareMonth', true);
+  }
+
+  search(data: any) {
+    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+      this.expenses = expenses;
+      this.build(data, expenses);
+    });
+  }
+    
+  build(data: any, expenses: Expense[]) {
+    this.months = [data.searchParams.month];
+    if (data.searchParams.compareMonth) {
+      this.months.push(data.searchParams.compareMonth);
+    }
     this.expenses = expenses;
     this.applyFilters();
     this.setTotalExpensesByMonth(data.searchParams.user);
     this.buildChart(data.searchParams.user);
-  }
+  }   
 
   private buildChart(user: string) {
     let aggregatedExpensesList: any[] = [];

@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
+import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
 @Component({
-  selector: 'app-compare-user-expenses-chart',
-  templateUrl: './compare-user-expenses-chart.component.html',
-  styleUrls: ['./compare-user-expenses-chart.component.css']
+  selector: 'app-users-chart',
+  templateUrl: './users-chart.component.html',
+  styleUrls: ['./users-chart.component.css']
 })
-export class CompareUserExpensesChartComponent extends BaseChart implements OnInit {
+export class UsersChartComponent extends BaseChart implements OnInit {
 
   chartType: ChartType = 'line';
   chartDatasets: Array<any> = [
@@ -32,21 +33,33 @@ export class CompareUserExpensesChartComponent extends BaseChart implements OnIn
 
   totalExpensesByUserMap: Map<string,string> = new Map<string,string>();
 
-  constructor() {
+  constructor(private expensesService: ExpensesService) {
     super();
   }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.setChartSearchParams();
   }
 
-  searchReport(data: any, expenses: Expense[]) {
+  private setChartSearchParams() {
+    this.chartSearchParamsMap.set('month', true);
+  }
+
+  search(data: any) {
+    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+      this.expenses = expenses;
+      this.build(data, expenses);
+    });
+  }
+    
+  build(data: any, expenses: Expense[]) {
     this.users = data.users;
     this.expenses = expenses;
     this.applyFilters(data.searchParams);
     this.setTotalExpensesByUser();
     this.buildChart();
-  }    
+  }   
 
   private buildChart() {
     let aggregatedExpensesList:any = [];

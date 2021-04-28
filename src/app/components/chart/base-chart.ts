@@ -7,6 +7,7 @@ export class BaseChart {
   user: any;
   users: string[] = [];
   expenses: Expense[] = [];
+  chartSearchParamsMap: Map<string, boolean> = new Map<string, boolean>();
 
   protected applyFilters(searchParams?: any) {
     this.statusFilter();

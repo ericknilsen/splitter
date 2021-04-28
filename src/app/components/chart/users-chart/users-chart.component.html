@@ -1,3 +1,6 @@
+<div class="search">
+    <app-charts-search [displayParamsMap]="chartSearchParamsMap" (searchChanges)="search($event)"></app-charts-search>
+</div>
 <div *ngIf="chartLabels.length > 0">
     <canvas baseChart
                 height="300"
