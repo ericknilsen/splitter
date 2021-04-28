@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Util } from 'src/app/common/util';
-import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
@@ -44,6 +43,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.subscribeToListExpenses();
     this.setChartSearchParams();
   }
 
@@ -53,23 +53,23 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     this.chartSearchParamsMap.set('compareMonth', true);
   }
 
-  search(data: any) {
-    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+  private subscribeToListExpenses() {
+    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
       this.expenses = expenses;
-      this.build(data, expenses);
+      this.allExpenses = expenses;
     });
   }
-    
-  build(data: any, expenses: Expense[]) {
+
+  search(data: any) {
     this.months = [data.searchParams.month];
     if (data.searchParams.compareMonth) {
       this.months.push(data.searchParams.compareMonth);
     }
-    this.expenses = expenses;
     this.applyFilters();
     this.setTotalExpensesByMonth(data.searchParams.user);
     this.buildChart(data.searchParams.user);
-  }   
+    this.expenses = this.allExpenses;
+  }
 
   private buildChart(user: string) {
     let aggregatedExpensesList: any[] = [];

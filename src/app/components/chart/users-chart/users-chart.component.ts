@@ -39,7 +39,15 @@ export class UsersChartComponent extends BaseChart implements OnInit {
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.subscribeToListExpenses();
     this.setChartSearchParams();
+  }
+
+  private subscribeToListExpenses() {
+    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
+      this.expenses = expenses;
+      this.allExpenses = expenses;
+    })
   }
 
   private setChartSearchParams() {
@@ -47,19 +55,12 @@ export class UsersChartComponent extends BaseChart implements OnInit {
   }
 
   search(data: any) {
-    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
-      this.expenses = expenses;
-      this.build(data, expenses);
-    });
-  }
-    
-  build(data: any, expenses: Expense[]) {
     this.users = data.users;
-    this.expenses = expenses;
     this.applyFilters(data.searchParams);
     this.setTotalExpensesByUser();
     this.buildChart();
-  }   
+    this.expenses = this.allExpenses;
+  }
 
   private buildChart() {
     let aggregatedExpensesList:any = [];

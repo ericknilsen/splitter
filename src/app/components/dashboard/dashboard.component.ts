@@ -44,13 +44,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   private subscribeToExpensesChangeEmittedEvent() {
     this.expensesService.expensesChangeEmitted$.subscribe(() => {
-      this.setBalance()
+      this.setBalance();
     });
   }
 
   private subscribeToPaymentsChangeEmittedEvent() {
     this.paymentsService.paymentsChangeEmitted$.subscribe(() => {
-      this.setBalance()
+      this.setBalance();
     });
   }
 
@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private calcTotalExpenses() {
     this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
       this.expenses = expenses;
+      this.expensesService.emitExpensesList(expenses);
       
       this.totalExpenses = this.expenses
         .filter(e => e.status === STATUS_APPROVED)
@@ -79,7 +80,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);      
 
-        this.calcTotalPayments()
+        this.calcTotalPayments();
     });
   }
 

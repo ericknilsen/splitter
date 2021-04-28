@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { Util } from 'src/app/common/util';
-import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
@@ -28,6 +27,7 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
+    this.subscribeToListExpenses();
     this.setChartSearchParams();
   }
 
@@ -36,19 +36,19 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
     this.chartSearchParamsMap.set('month', true);
   }
 
-  search(data: any) {
-    this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
+  private subscribeToListExpenses() {
+    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
       this.expenses = expenses;
-      this.build(data, expenses);
-    });
+      this.allExpenses = expenses;
+    })
   }
-    
-  build(data: any, expenses: Expense[]) {
+
+  search(data: any) {
     this.users = data.users;
-    this.expenses = expenses;
     this.applyFilters(data.searchParams);
     this.buildChart(data.searchParams.user);
-  }    
+    this.expenses = this.allExpenses;
+  }  
 
   private buildChart(user: string) {
     const aggregatedExpenses = this.expenses

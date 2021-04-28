@@ -28,12 +28,20 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Phase 2
 
-* View Expenses: Pagination (back-end)
-* Payments: Payments Received and Payment Sent tabs and Pagination
-* Dev environment: docker
+* Charts
 * Error and Success messages
-* Reports
 * Group management
-* Refactoring
-* Unit tests
+* Statements (save pdf, save in Google Drive)
 * Documentation
+
+## Phase 3
+
+* Refactoring
+* Logs
+* Unit tests
+* CI/CD
+* Documentation
+
+## Phase 4
+* Web Site
+* Manual
