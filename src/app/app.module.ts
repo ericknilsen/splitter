@@ -40,6 +40,7 @@ import { CategoryChartComponent } from './components/chart/category-chart/catego
 import { UsersChartComponent } from './components/chart/users-chart/users-chart.component';
 import { TimeChartComponent } from './components/chart/time-chart/time-chart.component';
 import { ChartsManagerComponent } from './components/chart/charts-manager/charts-manager.component';
+import { DatepickerRangePopupComponent } from './components/common/datepicker-range-popup/datepicker-range-popup.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ChartsManagerComponent } from './components/chart/charts-manager/charts
     CategoryChartComponent,
     UsersChartComponent,
     TimeChartComponent,
-    ChartsManagerComponent  
+    ChartsManagerComponent,
+    DatepickerRangePopupComponent  
   ],
   imports: [
     BrowserModule,

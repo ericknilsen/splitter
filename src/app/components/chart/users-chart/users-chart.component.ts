@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
+import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
-import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
@@ -39,15 +39,7 @@ export class UsersChartComponent extends BaseChart implements OnInit {
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
-    this.subscribeToListExpenses();
     this.setChartSearchParams();
-  }
-
-  private subscribeToListExpenses() {
-    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
-      this.expenses = expenses;
-      this.allExpenses = expenses;
-    })
   }
 
   private setChartSearchParams() {
@@ -56,10 +48,16 @@ export class UsersChartComponent extends BaseChart implements OnInit {
 
   search(data: any) {
     this.users = data.users;
-    this.applyFilters(data.searchParams);
-    this.setTotalExpensesByUser();
-    this.buildChart();
-    this.expenses = this.allExpenses;
+    let searchParams: any = {};
+    searchParams.status = STATUS_APPROVED;
+    searchParams.userEmail = this.user.email;
+    searchParams.startDate = data.dateInterval.startDate;
+    searchParams.endDate = data.dateInterval.endDate;
+    this.expensesService.search(searchParams).subscribe(result => {
+      this.expenses = result;
+      this.setTotalExpensesByUser();
+      this.buildChart();
+    })
   }
 
   private buildChart() {

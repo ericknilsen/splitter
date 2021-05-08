@@ -22,8 +22,7 @@ export class ChartsSearchComponent implements OnInit {
   form: FormGroup;
   user: any;
   users: any[] = [];
-  months: Map<string, string> = new Map();
-  monthsList: string[] = [];
+  dateInterval: any; 
 
   constructor(private fb: FormBuilder,
               private userGroupService: UserGroupService,) {
@@ -32,22 +31,13 @@ export class ChartsSearchComponent implements OnInit {
 
   private initForm() {
     return this.fb.group({
-      'month': new FormControl(''),
-      'compareMonth': new FormControl(''),
       'user': new FormControl('')
     });
   }
 
   ngOnInit(): void {
-    this.initMonths();
     this.initCurrentUser();
     this.selectParams();
-  }
-
-  private initMonths() {
-    this.months = Util.getMonths();
-    this.monthsList = Array.from(this.months.keys());
-    this.form.patchValue({'month': Util.getCurrentMonth()});
   }
 
   selectParams() {
@@ -61,12 +51,17 @@ export class ChartsSearchComponent implements OnInit {
   private listUserGroupOfUser() {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.users = userGroup.users;
-      this.searchChanges.emit({searchParams: this.form.value, users: userGroup.users});
+      this.searchChanges.emit({searchParams: this.form.value, users: userGroup.users, dateInterval: this.dateInterval});
     })
   }
 
   private initCurrentUser() {
     this.user = Util.getCurrentUser();
+  }
+
+  setDateInterval(dateInterval: any) {
+    this.dateInterval = dateInterval;
+    this.selectParams();
   }
 
   get f() { return this.form.controls; }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
@@ -27,7 +28,6 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
-    this.subscribeToListExpenses();
     this.setChartSearchParams();
   }
 
@@ -36,19 +36,17 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
     this.chartSearchParamsMap.set('month', true);
   }
 
-  private subscribeToListExpenses() {
-    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
-      this.expenses = expenses;
-      this.allExpenses = expenses;
+  search(data: any) {
+    let searchParams: any = {};
+    searchParams.status = STATUS_APPROVED;
+    searchParams.userEmail = this.user.email;
+    searchParams.startDate = data.dateInterval.startDate;
+    searchParams.endDate = data.dateInterval.endDate;
+    this.expensesService.search(searchParams).subscribe(result => {
+      this.expenses = result;
+      this.buildChart(data.searchParams.user);
     })
   }
-
-  search(data: any) {
-    this.users = data.users;
-    this.applyFilters(data.searchParams);
-    this.buildChart(data.searchParams.user);
-    this.expenses = this.allExpenses;
-  }  
 
   private buildChart(user: string) {
     const aggregatedExpenses = this.expenses
