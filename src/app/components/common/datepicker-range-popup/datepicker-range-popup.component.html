@@ -1,7 +1,7 @@
 <form class="form">
-  <div class="form-group hidden">
+  <div class="form-group">
     <div class="input-group">
-      <input name="datepicker" hidden
+      <input name="datepicker" readonly
              class="form-control"
              ngbDatepicker
              #datepicker="ngbDatepicker"
@@ -11,7 +11,13 @@
              [dayTemplate]="t"
              outsideDays="hidden"
              [startDate]="fromDate!"
-             tabindex="-1">
+             tabindex="-1"
+             [value]="dateInterval">
+      <div class="input-group-append">
+        <button class="btn btn-outline-info material-icons" (click)="datepicker.toggle()" type="button">
+          calendar_today
+        </button>
+      </div>       
       <ng-template #t let-date let-focused="focused">
         <span class="custom-day"
               [class.focused]="focused"
@@ -24,17 +30,14 @@
       </ng-template>
     </div>
   </div>
-  <div class="form-group">
-    <div class="input-group">
-      <input #dpFromDate
+  <div>
+    <div>
+      <input #dpFromDate hidden
              disabled
              class="form-control" 
              name="dpFromDate"
              [value]="dateInterval"
              (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
-      </div>
     </div>
   </div>
 </form>

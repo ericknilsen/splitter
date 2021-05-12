@@ -23,6 +23,7 @@ export class ChartsSearchComponent implements OnInit {
   user: any;
   users: any[] = [];
   dateInterval: any; 
+  compareDateInterval: any; 
 
   constructor(private fb: FormBuilder,
               private userGroupService: UserGroupService,) {
@@ -40,6 +41,16 @@ export class ChartsSearchComponent implements OnInit {
     this.selectParams();
   }
 
+  //n === 0 -> current month
+  //n === 1 -> previous month
+  getDefaultDateInterval(n: number) {
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), date.getMonth() - n, 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1 - n, 0);
+
+    return {firstDay, lastDay};
+  }
+
   selectParams() {
     this.emitSearchChanges();
   }
@@ -51,7 +62,7 @@ export class ChartsSearchComponent implements OnInit {
   private listUserGroupOfUser() {
     this.userGroupService.listUserGroupOfUser(this.user.email).subscribe(userGroup => {
       this.users = userGroup.users;
-      this.searchChanges.emit({searchParams: this.form.value, users: userGroup.users, dateInterval: this.dateInterval});
+      this.searchChanges.emit({searchParams: this.form.value, users: userGroup.users, dateInterval: this.dateInterval, compareDateInterval: this.compareDateInterval});
     })
   }
 
@@ -61,6 +72,11 @@ export class ChartsSearchComponent implements OnInit {
 
   setDateInterval(dateInterval: any) {
     this.dateInterval = dateInterval;
+    this.selectParams();
+  }
+
+  setCompareDateInterval(compareDateInterval: any) {
+    this.compareDateInterval = compareDateInterval;
     this.selectParams();
   }
 

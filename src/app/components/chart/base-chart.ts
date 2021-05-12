@@ -1,5 +1,3 @@
-import { STATUS_APPROVED } from "src/app/common/constants";
-import { Util } from "src/app/common/util";
 import { Expense } from "src/app/models/expense.model";
 
 export class BaseChart {
@@ -7,28 +5,7 @@ export class BaseChart {
   user: any;
   users: string[] = [];
   expenses: Expense[] = [];
-  allExpenses: Expense[] = [];
   chartSearchParamsMap: Map<string, boolean> = new Map<string, boolean>();
-
-  protected applyFilters(searchParams?: any) {
-    this.statusFilter();
-    if (searchParams) {
-      this.monthFilter(searchParams.month);
-    }
-  }
-
-  protected statusFilter() {
-    this.expenses = this.expenses.filter(e => e.status === STATUS_APPROVED);
-  }
-
-  protected monthFilter(month: string) {
-    if (month) {
-      this.expenses = this.expenses.filter(e => {
-        const mm = Util.getMonthFromStringDate(e.date);
-        return mm === month;
-      })
-    }
-  }
 
   protected userExpenseMapping(e: Expense, user: string) {
     if (e.chargedUser === user) {

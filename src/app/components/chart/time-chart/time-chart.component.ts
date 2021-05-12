@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
+import { Expense } from 'src/app/models/expense.model';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { BaseChart } from '../base-chart';
 
@@ -34,68 +36,71 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     }
   ];
 
-  months: string[] = [];
+  totalExpensesByDateIntervalMap: Map<string,string> = new Map<string,string>();
 
-  totalExpensesByMonthMap: Map<string,string> = new Map<string,string>();
-
-  constructor(private expensesService: ExpensesService) {
+  constructor(private expensesService: ExpensesService,
+              private datePipe: DatePipe) {
     super();
   }
 
   ngOnInit(): void {
     this.user = Util.getCurrentUser();
-    this.subscribeToListExpenses();
     this.setChartSearchParams();
   }
 
   private setChartSearchParams() {
     this.chartSearchParamsMap.set('user', true);
-    this.chartSearchParamsMap.set('month', true);
-  }
-
-  private subscribeToListExpenses() {
-    this.expensesService.listExpensesEmitted$.subscribe(expenses => {
-      this.expenses = expenses;
-      this.allExpenses = expenses;
-    });
+    this.chartSearchParamsMap.set('dateInterval', true);
+    this.chartSearchParamsMap.set('compareDateInterval', true);
   }
 
   search(data: any) {
-    console.log(data)
+    this.totalExpensesByDateIntervalMap = new Map<string,string>(); 
+    
     let searchParams: any = {};
     searchParams.status = STATUS_APPROVED;
     searchParams.userEmail = this.user.email;
     searchParams.startDate = data.dateInterval.startDate;
     searchParams.endDate = data.dateInterval.endDate;
-    this.expensesService.search(searchParams).subscribe(result => {
-      this.expenses = result;
-      this.buildChart(data.searchParams.user);
+
+    const dateInterval = this.transformDate(data.dateInterval.startDate, this.adjustFutureDate(data.dateInterval.endDate));
+    const compareDateInterval = this.transformDate(data.compareDateInterval.startDate, this.adjustFutureDate(data.compareDateInterval.endDate));
+
+    this.expensesService.search(searchParams).subscribe(datePeriodExpenses => {
+      this.setTotalExpensesByMonth(data.searchParams.user, datePeriodExpenses, dateInterval);
+      
+      searchParams.startDate = data.compareDateInterval.startDate;
+      searchParams.endDate = data.compareDateInterval.endDate;
+      this.expensesService.search(searchParams).subscribe(compareDatePeriodExpenses => {
+        this.setTotalExpensesByMonth(data.searchParams.user, compareDatePeriodExpenses, compareDateInterval);
+        this.buildChart(data.searchParams.user, [datePeriodExpenses, compareDatePeriodExpenses]);
+      })
     })
   }
 
-  /*
-  search(data: any) {
-    console.log(data)
-    this.months = ['04', '05'];
-    this.applyFilters();
-    this.setTotalExpensesByMonth(data.searchParams.user);
-    this.buildChart(data.searchParams.user);
-    this.expenses = this.allExpenses;
+  private transformDate(firstDate: any, lastDate: any) {
+    return `${this.datePipe.transform(firstDate, 'shortDate')} to ${this.datePipe.transform(lastDate, 'shortDate')}`;
   }
-  */
+  
+  private adjustFutureDate(futureDate: string) {
+    let date = new Date(futureDate);
+    date.setDate(date.getDate());
+    return date.toDateString();
+  }
 
-  private buildChart(user: string) {
+  private buildChart(user: string, expensesGroup: any[]) {
     let aggregatedExpensesList: any[] = [];
     let categoriesSet: Set<string> = new Set();
-    for (let i = 0; i < this.months.length; ++i) {
-      let aggregatedExpenses = this.expenses
-        .filter(e => Util.getMonthFromStringDate(e.date) === this.months[i])
+
+    for (let i = 0; i < expensesGroup.length; ++i) {
+      let expenses: Expense[] = expensesGroup[i];
+      let aggregatedExpenses = expenses
         .map(e => this.userExpenseMapping(e, user))
         .reduce(this.aggregateExpensesByCategory, []);
-      
-      categoriesSet = this.buildCategoriesSet(aggregatedExpenses, categoriesSet);
-      aggregatedExpensesList.push(aggregatedExpenses);  
-    }
+
+      categoriesSet = this.buildCategoriesSet(aggregatedExpenses, categoriesSet);  
+      aggregatedExpensesList.push(aggregatedExpenses);
+    }  
    
     aggregatedExpensesList = this.updateAggregatedExpenses(aggregatedExpensesList, categoriesSet);
     this.updateChartInfo(aggregatedExpensesList);
@@ -130,19 +135,17 @@ export class TimeChartComponent extends BaseChart implements OnInit {
       this.chartLabels = aggregatedExpenses.map(e => e.category);
       this.chartDatasets = aggregatedExpensesList.map((aggregatedExpense, index) => {
         let amounts = aggregatedExpense.map((a: { amount: any; }) => a.amount.toFixed(2));
-        return {data: amounts, label: `${Util.getMonths().get(this.months[index])} (${this.totalExpensesByMonthMap.get(this.months[index])})`};
+        let labels: string[] = Array.from(this.totalExpensesByDateIntervalMap.keys());
+        return {data: amounts, label: `${labels[index]} (${this.totalExpensesByDateIntervalMap.get(labels[index])})`};
       });
     } 
   }
 
-  private setTotalExpensesByMonth(user: string) {
-    for (let i = 0; i < this.months.length; ++i) {
-      let total = this.expenses
-        .filter(e => Util.getMonthFromStringDate(e.date) === this.months[i])
-        .map(e => this.userExpenseMapping(e, user))
-        .map(a => a.amount)
-        .reduce((previous, current) => previous+current, 0);
-      this.totalExpensesByMonthMap.set(this.months[i], `$${total.toFixed(2)}`);  
-    }
+  private setTotalExpensesByMonth(user: string, expenses: Expense[], label: any) {
+    let total = expenses
+      .map(e => this.userExpenseMapping(e, user))
+      .map(a => a.amount)
+      .reduce((previous, current) => previous+current, 0);
+    this.totalExpensesByDateIntervalMap.set(label, `$${total.toFixed(2)}`);  
   }
 }

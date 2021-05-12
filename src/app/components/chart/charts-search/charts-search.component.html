@@ -9,10 +9,16 @@
                 </select>
             </div>
         </div> 
-        <div class="form-group row" *ngIf="displayParamsMap.get('month')">
+        <div class="form-group row" *ngIf="displayParamsMap.get('dateInterval')">
             <div class="col-12">
-                <label>Date interval</label>
-                <app-datepicker-range-popup (dateIntervalSelected)="setDateInterval($event)"></app-datepicker-range-popup>
+                <label>Date Interval</label>
+                <app-datepicker-range-popup [defaultDateInterval]="getDefaultDateInterval(0)" (dateIntervalSelected)="setDateInterval($event)"></app-datepicker-range-popup>
+            </div>
+        </div> 
+        <div class="form-group row" *ngIf="displayParamsMap.get('compareDateInterval')">
+            <div class="col-12">
+                <label>Compare To</label>
+                <app-datepicker-range-popup [defaultDateInterval]="getDefaultDateInterval(1)" (dateIntervalSelected)="setCompareDateInterval($event)"></app-datepicker-range-popup>
             </div>
         </div> 
     </form>

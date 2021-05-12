@@ -33,7 +33,7 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
 
   private setChartSearchParams() {
     this.chartSearchParamsMap.set('user', true);
-    this.chartSearchParamsMap.set('month', true);
+    this.chartSearchParamsMap.set('dateInterval', true);
   }
 
   search(data: any) {

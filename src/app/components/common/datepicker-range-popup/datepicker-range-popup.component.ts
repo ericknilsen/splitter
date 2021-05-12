@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -8,6 +8,9 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbInputDatepicker} from '
   styleUrls: ['./datepicker-range-popup.component.css']
 })
 export class DatepickerRangePopupComponent implements OnInit {
+
+  @Input()
+  defaultDateInterval!: any;
 
   @Output() 
   dateIntervalSelected: EventEmitter<string> = new EventEmitter();
@@ -23,19 +26,19 @@ export class DatepickerRangePopupComponent implements OnInit {
   dateInterval!: any;
 
   constructor(private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
-    this.initNgbDateInterval();
   }
 
   initNgbDateInterval() {
-    const date = new Date();
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    if (this.defaultDateInterval) {
+      const {firstDay, lastDay} = this.defaultDateInterval;
 
-    this.fromDate = new NgbDate(firstDay.getFullYear(), firstDay.getMonth()+1, firstDay.getDate());
-    this.toDate = new NgbDate(lastDay.getFullYear(), lastDay.getMonth()+1, lastDay.getDate());
+      this.fromDate = new NgbDate(firstDay.getFullYear(), firstDay.getMonth()+1, firstDay.getDate());
+      this.toDate = new NgbDate(lastDay.getFullYear(), lastDay.getMonth()+1, lastDay.getDate());
+    }
   }
 
   ngOnInit(): void {
+    this.initNgbDateInterval();
     this.setDateInterval();
   }
 

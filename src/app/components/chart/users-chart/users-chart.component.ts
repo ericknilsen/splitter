@@ -43,7 +43,7 @@ export class UsersChartComponent extends BaseChart implements OnInit {
   }
 
   private setChartSearchParams() {
-    this.chartSearchParamsMap.set('month', true);
+    this.chartSearchParamsMap.set('dateInterval', true);
   }
 
   search(data: any) {
