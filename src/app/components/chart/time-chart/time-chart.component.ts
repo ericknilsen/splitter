@@ -73,7 +73,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
       searchParams.endDate = data.compareDateInterval.endDate;
       this.expensesService.search(searchParams).subscribe(compareDatePeriodExpenses => {
         this.setTotalExpensesByMonth(data.searchParams.user, compareDatePeriodExpenses, compareDateInterval);
-        this.buildChart(data.searchParams.user, [datePeriodExpenses, compareDatePeriodExpenses]);
+        this.buildChart(data.searchParams.user, [datePeriodExpenses, compareDatePeriodExpenses], [dateInterval, compareDateInterval]);
       })
     })
   }
@@ -88,7 +88,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     return date.toDateString();
   }
 
-  private buildChart(user: string, expensesGroup: any[]) {
+  private buildChart(user: string, expensesGroup: any[], labels: string[]) {
     let aggregatedExpensesList: any[] = [];
     let categoriesSet: Set<string> = new Set();
 
@@ -103,7 +103,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     }  
    
     aggregatedExpensesList = this.updateAggregatedExpenses(aggregatedExpensesList, categoriesSet);
-    this.updateChartInfo(aggregatedExpensesList);
+    this.updateChartInfo(aggregatedExpensesList, labels);
   }
 
   private buildCategoriesSet(aggregatedExpenses: any[], categoriesSet: Set<string>) {
@@ -139,27 +139,15 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     return 0;
   }
 
-  private updateChartInfo(aggregatedExpensesList: any[]) {
+  private updateChartInfo(aggregatedExpensesList: any[], labels: string[]) {
     if (aggregatedExpensesList.length > 0) {
       let aggregatedExpenses: any[] = aggregatedExpensesList[0];
       this.chartLabels = aggregatedExpenses.map(e => e.category);
       this.chartDatasets = aggregatedExpensesList.map((aggregatedExpense, index) => {
         let amounts = aggregatedExpense.map((a: { amount: any; }) => a.amount.toFixed(2));
-        let labels: string[] = Array.from(this.totalExpensesByDateIntervalMap.keys());
         return {data: amounts, label: `${labels[index]} (${this.totalExpensesByDateIntervalMap.get(labels[index])})`};
       });
-      this.chartDatasets.sort(this.compareByLabel);
     } 
-  }
-
-  private compareByLabel(o1: any, o2: any ) {
-    if (o1.label < o2.label){
-      return 1;
-    }
-    if (o1.label > o2.label){
-      return -1;
-    }
-    return 0;
   }
 
   private setTotalExpensesByMonth(user: string, expenses: Expense[], label: any) {
