@@ -20,7 +20,6 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
   ];
 
   percentageExpensesByCategoryMap: Map<string,string> = new Map<string,string>();
-  totalAmount: string = '';
 
   constructor(private expensesService: ExpensesService) {
     super();

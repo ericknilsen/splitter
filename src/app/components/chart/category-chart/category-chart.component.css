@@ -1,9 +1,7 @@
-.donut-inner {
-    margin-top: -112px;
-    margin-bottom: 80px;
-    margin-left: 122px;
+.total {
+    text-align: center;
  }
  
-.donut-inner span {
+.total span {
    font-size: 12px;
 }

@@ -85,6 +85,12 @@ export class UsersChartComponent extends BaseChart implements OnInit {
   }
 
   private setTotalExpensesByUser() {
+    const total = this.expenses
+                    .map(a => 1*a.amount)
+                    .reduce((previous, current) => previous+current, 0);
+
+    this.totalAmount = total.toFixed(2);                
+
     for (let i = 0; i < this.users.length; ++i) {
       let total = this.expenses
         .map(e => this.userExpenseMapping(e, this.users[i]))

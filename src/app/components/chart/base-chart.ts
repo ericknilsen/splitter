@@ -4,6 +4,7 @@ export class BaseChart {
 
   user: any;
   users: string[] = [];
+  totalAmount: string = '';
   expenses: Expense[] = [];
   chartSearchParamsMap: Map<string, boolean> = new Map<string, boolean>();
 
@@ -25,16 +26,6 @@ export class BaseChart {
       found[0].amount = parseFloat(found[0].amount) + parseFloat(current.amount);
     }
     return result;
-  }
-
-  protected compareExpensesByCategory(e1: Expense, e2: Expense ) {
-    if (e1.category < e2.category){
-      return -1;
-    }
-    if (e1.category > e2.category){
-      return 1;
-    }
-    return 0;
   }
 
   chartOptions: any = {

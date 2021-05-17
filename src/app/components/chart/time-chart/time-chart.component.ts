@@ -129,6 +129,16 @@ export class TimeChartComponent extends BaseChart implements OnInit {
     return aggregatedExpensesList;
   }
 
+  private compareExpensesByCategory(e1: Expense, e2: Expense ) {
+    if (e1.category < e2.category){
+      return -1;
+    }
+    if (e1.category > e2.category){
+      return 1;
+    }
+    return 0;
+  }
+
   private updateChartInfo(aggregatedExpensesList: any[]) {
     if (aggregatedExpensesList.length > 0) {
       let aggregatedExpenses: any[] = aggregatedExpensesList[0];
@@ -138,7 +148,18 @@ export class TimeChartComponent extends BaseChart implements OnInit {
         let labels: string[] = Array.from(this.totalExpensesByDateIntervalMap.keys());
         return {data: amounts, label: `${labels[index]} (${this.totalExpensesByDateIntervalMap.get(labels[index])})`};
       });
+      this.chartDatasets.sort(this.compareByLabel);
     } 
+  }
+
+  private compareByLabel(o1: any, o2: any ) {
+    if (o1.label < o2.label){
+      return 1;
+    }
+    if (o1.label > o2.label){
+      return -1;
+    }
+    return 0;
   }
 
   private setTotalExpensesByMonth(user: string, expenses: Expense[], label: any) {
