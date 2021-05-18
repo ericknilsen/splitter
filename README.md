@@ -28,10 +28,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Phase 2
 
-* Charts
+* Spinning
+* Search (date interval, empty result component)
 * Error and Success messages
-* Group management
-* Statements (save pdf, save in Google Drive)
 * Documentation
 
 ## Phase 3
@@ -43,5 +42,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 * Documentation
 
 ## Phase 4
+* Statements (save pdf, save in Google Drive)
+* Group management
+* Charts (Time -> compare current, previous and average months)
 * Web Site
 * Manual

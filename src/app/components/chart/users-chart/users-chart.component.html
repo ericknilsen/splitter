@@ -1,7 +1,7 @@
 <div class="search">
     <app-charts-search [displayParamsMap]="chartSearchParamsMap" (searchChanges)="search($event)"></app-charts-search>
 </div>
-<div class="total">
+<div *ngIf="totalAmount" class="total">
     <span><b>Total:</b> {{totalAmount | currency}}</span>
 </div>
 <div *ngIf="chartLabels.length > 0">
@@ -16,3 +16,4 @@
                 [legend]="true">
     </canvas>
 </div>
+<app-spinner></app-spinner>

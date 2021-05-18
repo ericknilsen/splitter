@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
 import { Expense } from 'src/app/models/expense.model';
@@ -39,6 +40,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
   totalExpensesByDateIntervalMap: Map<string,string> = new Map<string,string>();
 
   constructor(private expensesService: ExpensesService,
+              private spinnerService: NgxSpinnerService,
               private datePipe: DatePipe) {
     super();
   }
@@ -55,6 +57,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
   }
 
   search(data: any) {
+    this.spinnerService.show();
     this.totalExpensesByDateIntervalMap = new Map<string,string>(); 
     
     let searchParams: any = {};
@@ -74,6 +77,7 @@ export class TimeChartComponent extends BaseChart implements OnInit {
       this.expensesService.search(searchParams).subscribe(compareDatePeriodExpenses => {
         this.setTotalExpensesByMonth(data.searchParams.user, compareDatePeriodExpenses, compareDateInterval);
         this.buildChart(data.searchParams.user, [datePeriodExpenses, compareDatePeriodExpenses], [dateInterval, compareDateInterval]);
+        this.spinnerService.hide();
       })
     })
   }

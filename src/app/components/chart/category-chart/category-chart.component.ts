@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { STATUS_APPROVED } from 'src/app/common/constants';
 import { Util } from 'src/app/common/util';
 import { ExpensesService } from 'src/app/services/expenses.service';
@@ -21,7 +22,8 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
 
   percentageExpensesByCategoryMap: Map<string,string> = new Map<string,string>();
 
-  constructor(private expensesService: ExpensesService) {
+  constructor(private expensesService: ExpensesService,
+              private spinnerService: NgxSpinnerService) {
     super();
   }
 
@@ -36,6 +38,7 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
   }
 
   search(data: any) {
+    this.spinnerService.show();
     let searchParams: any = {};
     searchParams.status = STATUS_APPROVED;
     searchParams.userEmail = this.user.email;
@@ -44,6 +47,7 @@ export class CategoryChartComponent extends BaseChart implements OnInit {
     this.expensesService.search(searchParams).subscribe(result => {
       this.expenses = result;
       this.buildChart(data.searchParams.user);
+      this.spinnerService.hide();
     })
   }
 
