@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Expense } from '../models/expense.model';
 import { ENDPOINT } from '../common/constants';
-import { ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class ExpensesService {
@@ -12,10 +11,6 @@ export class ExpensesService {
   private emitChangeExpenses = new Subject<any>();
 
   expensesChangeEmitted$ = this.emitChangeExpenses.asObservable();
-
-  private emitListExpenses = new ReplaySubject<Expense[]>();
-
-  listExpensesEmitted$ = this.emitListExpenses.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -46,9 +41,4 @@ export class ExpensesService {
   emitExpensesChange() {
     this.emitChangeExpenses.next();
   }
-
-  emitExpensesList(expenses: Expense[]) {
-    this.emitListExpenses.next(expenses);
-  }
-
 }

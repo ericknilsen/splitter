@@ -5,6 +5,7 @@ import { UserGroupService } from 'src/app/services/user-groups.service';
 import { Util } from 'src/app/common/util';
 import { STATUS_APPROVED } from 'src/app/common/constants';
 import { PaymentsService } from 'src/app/services/payments.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   constructor(private userGroupService: UserGroupService,
               private paymentsService: PaymentsService,
+              private spinnerService: NgxSpinnerService,
               private expensesService: ExpensesService) { }
 
   ngOnInit(): void {
@@ -65,9 +67,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   private calcTotalExpenses() {
+    this.spinnerService.show();
     this.expensesService.listExpensesByUser(this.user.email).subscribe(expenses => {
       this.expenses = expenses;
-      this.expensesService.emitExpensesList(expenses);
       
       this.totalExpenses = this.expenses
         .filter(e => e.status === STATUS_APPROVED)
@@ -81,6 +83,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);      
 
         this.calcTotalPayments();
+        this.spinnerService.hide();
     });
   }
 
